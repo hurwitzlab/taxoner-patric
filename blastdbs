@@ -1,1 +1,1 @@
-simap3	blastx	/rsgrps1/mbsulli/bioinfo/blastdbs/simap3/sequences.fa
+simap	/rsgrps/bhurwitz/hurwitzlab/bin/blastx	/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/simap

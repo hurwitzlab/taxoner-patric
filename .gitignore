@@ -1,2 +1,4 @@
-pbserr
-pbsout
+err
+out
+fasta-split
+blast-out
