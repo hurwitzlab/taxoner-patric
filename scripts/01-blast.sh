@@ -6,6 +6,8 @@ OUT_DIR=$CWD/out/$PROG
 
 create_dirs "$ERR_DIR" "$OUT_DIR" "$BLAST_OUT_DIR"
 
+#JOB=`qsub -v SCRIPT_DIR,SPLIT_FA_DIR,BLAST_OUT_DIR,BLAST_CONF_FILE -N blast -e "$ERR_DIR/$BASENAME" -o "$OUT_DIR/$BASENAME" kyc.sh`
+
 cd "$SPLIT_FA_DIR"
 
 find . -type f -name \*.fa | sed "s/^\.\///" > split-files
@@ -22,25 +24,3 @@ if [ $NUM_FILES -gt 0 ]; then
         echo Problem submitting job!
     fi
 fi
-
-exit 0
-
-#i=0
-#for DIR in `find $SPLIT_FA_DIR -maxdepth 1 -type d`; do
-#    i=$((i+1))
-#
-#    export SPLIT_DIR=$DIR
-#    NUM_FILES=`find $DIR -name \*.fa | wc -l`
-#
-#    if [ $NUM_FILES -gt 0 ]; then
-#        BASENAME=`basename $DIR`
-#        export WRITE_DIR="$BLAST_OUT_DIR/$BASENAME"
-#        JOB=`qsub -I -v SPLIT_DIR,WRITE_DIR,BLAST_CONF_FILE -N blast -e "$ERR_DIR/$BASENAME" -o "$OUT_DIR/$BASENAME" $SCRIPTS/run_blast.sh`
-#
-#        printf '%5d: %15s %-30s\n' $i $JOB $FILE
-#    else
-#        echo Found no files in $DIR
-#    fi
-#
-#    break
-#done
