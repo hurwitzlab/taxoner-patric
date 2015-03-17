@@ -18,17 +18,3 @@ if [ $NUM_FILES -gt 0 ]; then
 else
     echo "Found no FASTA files in dir '$FASTA_DIR'"
 fi
-
-#i=0
-#for FILE in $FASTA_DIR/*.fa; do
-#    i=$((i+1))
-#
-#    export FILE
-#    BASENAME=`basename $FILE`
-#
-#    JOB=`qsub -v CWD,BIN_DIR,FILE,FASTA_DIR,SPLIT_FA_DIR,FA_SPLIT_FILE_SIZE -N split-fa -e $ERR_DIR/$BASENAME -o $OUT_DIR/$BASENAME $SCRIPTS/split_fa.sh`
-#
-#    printf '%5d: %15s %-30s\n' $i $JOB $BASENAME
-#
-#    #break
-#done
