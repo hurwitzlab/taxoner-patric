@@ -4,7 +4,8 @@ PROG=`basename $0 ".sh"`
 ERR_DIR=$CWD/err/$PROG
 OUT_DIR=$CWD/out/$PROG
 
-create_dirs $ERR_DIR $OUT_DIR $BLAST_OUT_DIR
+create_dir $ERR_DIR
+create_dir $OUT_DIR
 
 i=0
 for DIR in `find $SPLIT_FA_DIR -maxdepth 1 -type d`; do
