@@ -1,10 +1,16 @@
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
+ERR=$CWD/err
+OUT=$CWD/out
 ERR_DIR=$CWD/err/$PROG
 OUT_DIR=$CWD/out/$PROG
 
-create_dirs $ERR_DIR $OUT_DIR $SPLIT_FA_DIR
+create_dir $ERR
+create_dir $OUT
+create_dir $ERR_DIR
+create_dir $OUT_DIR
+create_dir $SPLIT_FA_DIR
 
 cd $FASTA_DIR 
 
