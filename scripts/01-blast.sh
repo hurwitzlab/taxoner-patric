@@ -1,10 +1,11 @@
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
-ERR_DIR="$CWD/err/$PROG"
-OUT_DIR="$CWD/out/$PROG"
+ERR_DIR=$CWD/err/$PROG
+OUT_DIR=$CWD/out/$PROG
 
-create_dirs "$ERR_DIR" "$OUT_DIR" 
+create_dir $ERR_DIR
+create_dir $OUT_DIR
 
 if [[ ! -d "$BLAST_OUT_DIR" ]]; then
     mkdir -p "$BLAST_OUT_DIR"
