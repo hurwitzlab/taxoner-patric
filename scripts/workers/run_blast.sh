@@ -36,6 +36,11 @@ echo File \"$FILE\"
 if [ -e $BLAST_CONF_FILE ]; then
     while read BLAST_DB_NAME BLAST_TYPE BLAST_DB; do
         BLAST_OUT="$BLAST_OUT_DIR/$BLAST_DB_NAME/$FASTA"
+        DIR=`dirname $BLAST_OUT`
+
+        if [[ ! -d $DIR ]]; then
+            mkdir -p $DIR
+        fi
 
         if [[ -e $BLAST_OUT ]]; then
             rm -rf $BLAST_OUT
