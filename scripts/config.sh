@@ -10,10 +10,11 @@ export BLAST="/rsgrps/bhurwitz/hurwitzlab/bin/blastall"
 export JOBS=100
 
 function create_dir {
-  if [ -d "$1" ]; then
-        rm -rf "$1/*"
-  else
-        mkdir -p "$1"
-  fi
+    for dir in $*; do
+        if [ -d "$dir" ]; then
+            rm -rf $dir/*
+        else
+            mkdir -p "$dir"
+        fi
+    done
 }
-
