@@ -1,10 +1,10 @@
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
-ERR_DIR=$CWD/err/$PROG
-OUT_DIR=$CWD/out/$PROG
+STDERR_DIR="$CWD/err/$PROG"
+STDOUT_DIR="$CWD/out/$PROG"
 
-create_dir "$ERR_DIR" "$OUT_DIR"
+init_dir "$STDERR_DIR" "$STDOUT_DIR"
 
 if [[ ! -d "$BLAST_OUT_DIR" ]]; then
     mkdir -p "$BLAST_OUT_DIR"
@@ -12,17 +12,19 @@ fi
 
 cd "$SPLIT_FA_DIR" 
 
-find . -type f -name \*.fa | sed "s/^\.\///" > split-files
+export FILES_LIST="split-files"
+
+find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=`wc -l split-files | cut -f 1 -d ' '`
 
 echo Found \"$NUM_FILES\" files in \"$SPLIT_FA_DIR\"
 
 if [ $NUM_FILES -gt 0 ]; then
-    JOB=`qsub -v SCRIPT_DIR,SPLIT_FA_DIR,BLAST,BLAST_OUT_DIR,BLAST_CONF_FILE -N blast -e "$ERR_DIR" -o "$OUT_DIR" -J 1-$NUM_FILES $SCRIPT_DIR/run_blast.sh` 
+    JOB_ID=`qsub -v SCRIPT_DIR,SPLIT_FA_DIR,BLAST,BLAST_OUT_DIR,BLAST_CONF_FILE,FILES_LIST -N blast -e "$STDERR_DIR" -o "$STDOUT_DIR" -J 1-$NUM_FILES $SCRIPT_DIR/run_blast.sh` 
 
-    if [ "${JOB}x" != "x" ]; then
-        echo Job: \"$JOB\"
+    if [ "${JOB_ID}x" != "x" ]; then
+        echo Job: \"$JOB_ID\"
     else
         echo Problem submitting job.
     fi
