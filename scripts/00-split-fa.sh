@@ -1,22 +1,24 @@
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
-ERR=$CWD/err
-OUT=$CWD/out
-ERR_DIR=$CWD/err/$PROG
-OUT_DIR=$CWD/out/$PROG
+STDERR_DIR="$CWD/err/$PROG"
+STDOUT_DIR="$CWD/out/$PROG"
 
-create_dir "$ERR" "$OUT" "$ERR_DIR" "$OUT_DIR" "$SPLIT_FA_DIR" 
+init_dir "$STDERR_DIR" "$STDOUT_DIR" "$SPLIT_FA_DIR" 
 
-cd $FASTA_DIR 
+cd "$FASTA_DIR" 
 
-find . -type f -name \*.fa > files
+export FILES_LIST="$FASTA_DIR/files-list"
+
+find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=`wc -l files | cut -f 1 -d ' '`
 
+echo Found \"$NUM_FILES\" files in \"$FASTA_DIR.\"
+
 if [ $NUM_FILES -gt 0 ]; then
-    JOB=`qsub -v CWD,BIN_DIR,FASTA_DIR,SPLIT_FA_DIR,FA_SPLIT_FILE_SIZE -N split-fa -e $ERR_DIR/$BASENAME -o $OUT_DIR/$BASENAME -J 1-$NUM_FILES $SCRIPT_DIR/split_fa.sh`
-    echo "Submitted $NUM_FILES to job '$JOB'"
+    JOB_ID=`qsub -v CWD,BIN_DIR,FASTA_DIR,SPLIT_FA_DIR,FILES_LIST,FA_SPLIT_FILE_SIZE -N split-fa -e "$STDERR_DIR" -o "$STDOUT_DIR" $SCRIPT_DIR/split_fa.sh`
+    echo Submitted job \"$JOB_ID.\"  Adios.
 else
-    echo "Found no FASTA files in dir '$FASTA_DIR'"
+    echo Nothing to doNothing to do.
 fi
