@@ -24,7 +24,7 @@ NUM_CPU="12"
 
 cd "$SPLIT_FA_DIR"
 
-FASTA=`head -n +${PBS_ARRAY_INDEX} split-files | tail -n 1`
+FASTA=`head -n +${PBS_ARRAY_INDEX} $FILES_LIST | tail -n 1`
 
 FILE="$SPLIT_FA_DIR/$FASTA"
 
