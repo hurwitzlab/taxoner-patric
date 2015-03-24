@@ -8,34 +8,52 @@
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
 
-echo HOSTNAME `hostname`
+echo Host `hostname`
+
+echo Started `date`
+
 source /usr/share/Modules/init/bash
 
-cd $FASTA_DIR
+FASPLIT="$BIN_DIR/faSplit"
 
-FILE=`head -n ${PBS_ARRAY_INDEX} files | tail -n 1`
-
-if [ "${FILE}x" == "x" ]; then
-    echo nothing found for PBS_ARRAY_INDEX $PBS_ARRAY_INDEX
+if [[ ! -e "$FASPLIT" ]]; then
+    echo Cannot find faSplit \"$FASPLIT\"
     exit 1
 fi
 
-BASENAME=`basename $FILE`
-OUT_DIR="$SPLIT_FA_DIR/$BASENAME"
-
-echo OUT_DIR $OUT_DIR
-
-if [ -d $OUT_DIR ]; then
-    rm -rf $OUT_DIR/*
-else
-    mkdir -p $OUT_DIR
+if [[ ! -e "$FILES_LIST" ]]; then
+    echo Cannot find files list \"$FILES_LIST\"
+    exit 1
 fi
 
-#
-# Split <file> into chunks of N, put files into <out> directory
-#
-FASPLIT="$BIN_DIR/faSplit"
+#FILE=`head -n ${PBS_ARRAY_INDEX} files | tail -n 1`
+#if [ "${FILE}x" == "x" ]; then
+#    echo nothing found for PBS_ARRAY_INDEX $PBS_ARRAY_INDEX
+#    exit 1
+#fi
 
-echo $FASPLIT about $FILE $FA_SPLIT_FILE_SIZE "$OUT_DIR/"
+cd $FASTA_DIR
 
-$FASPLIT about $FILE $FA_SPLIT_FILE_SIZE "$OUT_DIR/"
+i=0
+while read FILE; do
+    let i++
+
+    BASENAME=`basename $FILE`
+
+    OUT_DIR="$SPLIT_FA_DIR/$BASENAME"
+
+    printf "%5d: %s\n" $i "$BASENAME"
+
+    if [ -d "$OUT_DIR" ]; then
+        rm -rf $OUT_DIR/*
+    else 
+        mkdir -p $OUT_DIR
+    fi
+
+    #
+    # Split <file> into chunks of N, put files into <out> directory
+    #
+    $FASPLIT about "$FILE" "$FA_SPLIT_FILE_SIZE" "$OUT_DIR/"
+done < "$FILES_LIST"
+
+echo Finished `date`
