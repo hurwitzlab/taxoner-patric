@@ -1,6 +1,6 @@
 export CWD=$PWD
 export BIN_DIR="/rsgrps/bhurwitz/hurwitzlab/bin"
-export FASTA_DIR="/rsgrps/bhurwitz/hurwitzlab/data/clean/mouse/doetschman/fasta"
+export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/test_sequences"
 export SPLIT_FA_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/fasta-split"
 export BLAST_OUT_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blast-out"
 export SCRIPT_DIR="$CWD/workers"

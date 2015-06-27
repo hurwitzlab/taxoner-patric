@@ -7,6 +7,8 @@
 #PBS -l place=pack:shared
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
 
 echo Host `hostname`
 
@@ -26,12 +28,6 @@ if [[ ! -e "$FILES_LIST" ]]; then
     exit 1
 fi
 
-#FILE=`head -n ${PBS_ARRAY_INDEX} files | tail -n 1`
-#if [ "${FILE}x" == "x" ]; then
-#    echo nothing found for PBS_ARRAY_INDEX $PBS_ARRAY_INDEX
-#    exit 1
-#fi
-
 cd $FASTA_DIR
 
 i=0
@@ -46,7 +42,7 @@ while read FILE; do
 
     if [ -d "$OUT_DIR" ]; then
         rm -rf $OUT_DIR/*
-    else 
+    else
         mkdir -p $OUT_DIR
     fi
 
