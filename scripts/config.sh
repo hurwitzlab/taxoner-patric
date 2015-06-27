@@ -9,6 +9,10 @@ export BLAST_CONF_FILE="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blastdbs"
 export BLAST="/rsgrps/bhurwitz/hurwitzlab/bin/blastall"
 export JOBS=100
 
+#
+# Some custom functions for our scripts
+#
+# --------------------------------------------------
 function init_dir {
     for dir in $*; do
         if [ -d "$dir" ]; then
@@ -17,4 +21,9 @@ function init_dir {
             mkdir -p "$dir"
         fi
     done
+}
+
+# --------------------------------------------------
+function lc() {
+    wc -l $1 | cut -d ' ' -f 1
 }
