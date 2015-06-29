@@ -1,4 +1,4 @@
-#! /uaopt/perl/5.14.2/bin/perl 
+#!/usr/bin/env perl
 
 if (@ARGV != 2) { die "Usage: Compile.pl directory output\n"; }
 
@@ -16,7 +16,7 @@ for my $file (@files) {
   open (F, "$dir/$file") || die "cannot open file\n";
   while (<F>) {
      print OUT $_;
-  }    
+  }
   close F;
 }
 

@@ -7,10 +7,10 @@
 #PBS -l place=pack:shared
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
 
 source /usr/share/Modules/init/bash
-
-module load perl
 
 cd $CWD
 

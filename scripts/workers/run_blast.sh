@@ -6,7 +6,7 @@
 #PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
 #PBS -l pvmem=46gb
 #PBS -l walltime=24:00:00
-#PBS -l cput=24:00:00
+#PBS -l cput=72:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
