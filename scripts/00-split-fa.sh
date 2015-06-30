@@ -1,3 +1,7 @@
+#
+# This script is intended to break up your fasta files into more manageable chunks
+#
+
 source ./config.sh
 
 PROG=`basename $0 ".sh"`

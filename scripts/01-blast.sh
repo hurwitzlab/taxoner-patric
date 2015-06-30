@@ -1,3 +1,7 @@
+#
+# This script is intended to blast your fastas against a desired database (of flat files)
+#
+
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
