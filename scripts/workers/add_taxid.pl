@@ -1,5 +1,12 @@
 #!/usr/bin/env perl
 
+### Note to self:
+# /rsgrps/bhurwitz/hurwitzlab/data/reference/simap/proteins.gz
+# is where to lookup taxid with the md5 in blastresults
+# then /rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/...
+# is where to lookup genus/family/species info (proteins.gz just gives you the species_id
+# (e.g. "7227")
+
 # --------------------------------------------------
 
 =pod
@@ -10,7 +17,7 @@ add_taxid.pl
 
 =head1 SYNOPSIS
 
-add_taxid.pl -i|--input [Blast results] -o|--output [Output directory]
+add_taxid.pl -i|--input [Blast results] -o|--output [Output directory] -s|--simap [simap directory] -n|--ncbi [ncbi taxid directory]
 
 Options:
 
@@ -18,6 +25,8 @@ Options:
  -v|--version  Show version and exit
  -i|--input    Blast results against simap
  -o|--output   Output directory
+ -s|--simap    Simap direcotry
+ -n|--ncbi     NCBI Taxid directory
 
 =head1 DESCRIPTION
 
@@ -52,18 +61,20 @@ our $VERSION;
 $VERSION = sprintf "%d.%02d", q$Revision: 0.8 $ =~ /(\d+)\.(\d+)/;
 
 #declaring variables
-my ($help,  $show_version, $input, $output_dir, $new_name);
+my ($help,  $show_version, $input, $output_dir, $simap_dir, $ncbi_dir);
 
 #getting options from command-line
 GetOptions(
     'h|help|?'    => \$help,
     'v|version' => \$show_version,
     'i|input=s'    => \$input,
-    'o|output=s' => \$output_dir
+    'o|output=s' => \$output_dir,
+    's|simap=s' => \$simap_dir,
+    'n|ncbi=s' => \$ncbi_dir
 );
 
 #display help if less than 2 arguments are on commandline
-if (@ARGV < 2 && !($help) && !($show_version)) { pod2usage(2); }
+#if (@ARGV < 2 && !($help) && !($show_version)) { pod2usage(2); }
 
 #display help if put in the option --help
 pod2usage(2) if $help;
@@ -76,16 +87,14 @@ if ($show_version) {
 }
 
 # set up output
-mkdir $output_dir  || die "Can't create path $output_dir: $!";
 my $handle   = undef;
 my $encoding = ":encoding(UTF-8)";
-$new_name = join('.','taxa',$input);
-open($handle, "> $encoding", catfile($output_dir, $new_name)) || die "$0: Can't open $new_name in write-open mode: $!";
+open($handle, "> $encoding", catfile($output_dir, basename($input))) || die "$0: Can't open in write-open mode: $!";
 
 # set up input
 open (IN, $input) || die "Cannot open input\n";
 
-open (TAX, "/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/species_to_superkingdom");
+open (TAX, "$ncbi_dir/species_to_superkingdom");
 my %taxid_to_desc;
 my %taxid_to_kingdom;
 
@@ -99,7 +108,7 @@ while (<TAX>) {
    $taxid_to_kingdom{$id} = $kingdom;
 }
 
-open (G, "/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/species_to_genus");
+open (G, "$ncbi_dir/species_to_genus");
 my %taxid_to_genus;
 
 while (<G>) {
@@ -110,7 +119,7 @@ while (<G>) {
    $taxid_to_genus{$id} = $genus;
 }
 
-open (P, "/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/species_to_phylum");
+open (P, "$ncbi_dir/species_to_phylum");
 my %taxid_to_phylum;
 
 while (<P>) {
@@ -121,7 +130,7 @@ while (<P>) {
    $taxid_to_phylum{$id} = $phylum;
 }
 
-open (F, "/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/species_to_family");
+open (F, "$ncbi_dir/species_to_family");
 my %taxid_to_family;
 
 while (<F>) {
@@ -133,17 +142,17 @@ while (<F>) {
 }
 
 
-open (GOTERM, "/rsgrps/bhurwitz/hurwitzlab/data/reference/goterms/ontology_term.txt");
-my %goid_to_desc;
-
-while (<GOTERM>) {
-   chomp $_;
-   my ($id, $cat, $desc, $desc2) = split(/\t/, $_);
-   $goid_to_desc{$id} = $desc;
-}
+# open (GOTERM, "/rsgrps/bhurwitz/hurwitzlab/data/reference/goterms/ontology_term.txt");
+# my %goid_to_desc;
+#
+# while (<GOTERM>) {
+#    chomp $_;
+#    my ($id, $cat, $desc, $desc2) = split(/\t/, $_);
+#    $goid_to_desc{$id} = $desc;
+# }
 
 # make a hash of input ids to simap ids for simap
-open( SIMAPHITS, "./$input" ) || die "Cannot open hits file\n";
+open( SIMAPHITS, "$input" ) || die "Cannot open hits file\n";
 
 my %id_to_simap;
 my %simap_ids;
@@ -153,13 +162,13 @@ while (<SIMAPHITS>) {
    chomp $_;
    my @fields = split(/\t/, $_);
    my $id = $fields[0];
-   my $sid = $fields[2];
+   my $sid = $fields[1];
    $id_to_simap{$id} = $sid;
    $simap_ids{$sid} = $sid;
    $id_to_simaphit{$id} = $_;
 }
 
-my $simap_to_tax = "/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/proteins";
+my $simap_to_tax = "$simap_dir/proteins";
 open( SI, "$simap_to_tax" ) || die "Cannot open simap_to_tax\n";
 
 my %simap_to_tax;
@@ -167,10 +176,10 @@ my %simap_to_tax;
 while (<SI>) {
     chomp $_;
     my @fields = split( /\t/, $_ );
-    my $simapid     = $fields[0];
+    my $simapid = $fields[0];
     my $dbid = $fields[1];
     my $source = $fields[3];
-    my $taxid  =      $fields[2];
+    my $taxid  = $fields[2];
     my $taxdesc = $taxid_to_desc{$taxid};
     my $taxking = $taxid_to_kingdom{$taxid};
     my $taxgen  = $taxid_to_genus{$taxid};
@@ -183,55 +192,55 @@ while (<SI>) {
     }
 }
 
-my $simap_to_go = "/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/blast2go";
-open (GO, "$simap_to_go") || die "Cannot open simap_to_go\n";
-my %simap_to_go;
-while (<GO>) {
-   chomp $_;
-   my ($id, $goid, $score) = split(/\t/, $_);
-   if (exists $simap_ids{$id}) {
-      push(@{$simap_to_go{$id}}, $goid);
-   }
-}
+# my $simap_to_go = "$simap_dir/blast2go";
+# open (GO, "$simap_to_go") || die "Cannot open simap_to_go\n";
+# my %simap_to_go;
+# while (<GO>) {
+#    chomp $_;
+#    my ($id, $goid, $score) = split(/\t/, $_);
+#    if (exists $simap_ids{$id}) {
+#       push(@{$simap_to_go{$id}}, $goid);
+#    }
+# }
 
-my $simap_to_pfam = "/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/features_HMMPfam";
-open (PF, "$simap_to_pfam") || die "Cannot open simap_to_pfam\n";
-my %simap_to_pfam;
-while (<PF>) {
-   chomp $_;
-   my @fields = split(/\t/, $_);
-   my $id = shift @fields;
-   if (exists $simap_ids{$id}) {
-      my $line = join("\t", @fields);
-      $simap_to_pfam{$id} =  $line;
-   }
-}
+# my $simap_to_pfam = "$simap_dir/features_HMMPfam";
+# open (PF, "$simap_to_pfam") || die "Cannot open simap_to_pfam\n";
+# my %simap_to_pfam;
+# while (<PF>) {
+#    chomp $_;
+#    my @fields = split(/\t/, $_);
+#    my $id = shift @fields;
+#    if (exists $simap_ids{$id}) {
+#       my $line = join("\t", @fields);
+#       $simap_to_pfam{$id} =  $line;
+#    }
+# }
 
-my $simap_to_tigr = "/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/features_HMMTigr";
-open (T, "$simap_to_tigr") || die "Cannot open simap_to_tigr\n";
-my %simap_to_tigr;
-while (<T>) {
-   chomp $_;
-   my @fields = split(/\t/, $_);
-   my $id = shift @fields;
-   if (exists $simap_ids{$id}) {
-      my $line = join("\t", @fields);
-      $simap_to_tigr{$id} =  $line;
-   }
-}
+# my $simap_to_tigr = "$simap_dir/features_HMMTigr";
+# open (T, "$simap_to_tigr") || die "Cannot open simap_to_tigr\n";
+# my %simap_to_tigr;
+# while (<T>) {
+#    chomp $_;
+#    my @fields = split(/\t/, $_);
+#    my $id = shift @fields;
+#    if (exists $simap_ids{$id}) {
+#       my $line = join("\t", @fields);
+#       $simap_to_tigr{$id} =  $line;
+#    }
+# }
 
-my $simap_to_pir = "/rsgrps/bhurwitz/hurwitzlab/data/reference/simap/features_HMMPIR";
-open (P, "$simap_to_pir") || die "Cannot open simap_to_pir\n";
-my %simap_to_pir;
-while (<P>) {
-   chomp $_;
-   my @fields = split(/\t/, $_);
-   my $id = shift @fields;
-   if (exists $simap_ids{$id}) {
-      my $line = join("\t", @fields);
-      $simap_to_pir{$id} =  $line;
-   }
-}
+# my $simap_to_pir = "$simap_dir/features_HMMPIR";
+# open (P, "$simap_to_pir") || die "Cannot open simap_to_pir\n";
+# my %simap_to_pir;
+# while (<P>) {
+#    chomp $_;
+#    my @fields = split(/\t/, $_);
+#    my $id = shift @fields;
+#    if (exists $simap_ids{$id}) {
+#       my $line = join("\t", @fields);
+#       $simap_to_pir{$id} =  $line;
+#    }
+# }
 
 # go through hits and find their simap_info if it exists
 # Note in this script we are choosing the top hit to
@@ -257,46 +266,49 @@ while (<IN>) {
       print OUT "NONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\t";
    }
 
-   if (exists $simap_to_go{$sid}) {
-      my @goids;
-      my @godesc;
-      for my $g (@{$simap_to_go{$sid}}) {
-         push(@goids, $g);
-         my $desc = 'NONE';
-         if (exists $goid_to_desc{$g}) {
-            $desc = $goid_to_desc{$g};
-         }
-         push(@godesc, $desc);
-     }
-     my $gids = join(",", @goids);
-     my $gdesc = join(",", @godesc);
-     print OUT "$gids\t$gdesc\t";
-   }
-   else {
-      print OUT "NONE\tNONE\t";
-   }
-
-   if (exists $simap_to_pfam{$sid}) {
-      print OUT "$simap_to_pfam{$sid}\t";
-   }
-   else {
-      print OUT "$n\t";
-   }
-
-   if (exists $simap_to_tigr{$sid}) {
-      print OUT "$simap_to_tigr{$sid}\t";
-   }
-   else {
-      print OUT "$n\t";
-   }
-
-   if (exists $simap_to_pir{$sid}) {
-      print OUT "$simap_to_pir{$sid}\t";
-   }
-   else {
-      print OUT "$n\t";
-   }
-   print OUT "\n";
+   # if (exists $simap_to_go{$sid}) {
+#       my @goids;
+#       my @godesc;
+#       for my $g (@{$simap_to_go{$sid}}) {
+#          push(@goids, $g);
+#          my $desc = 'NONE';
+#          if (exists $goid_to_desc{$g}) {
+#             $desc = $goid_to_desc{$g};
+#          }
+#          push(@godesc, $desc);
+#      }
+#      my $gids = join(",", @goids);
+#      my $gdesc = join(",", @godesc);
+#      print OUT "$gids\t$gdesc\t";
+#    }
+#    else {
+#       print OUT "NONE\tNONE\t";
+#    }
+#
+#    if (exists $simap_to_pfam{$sid}) {
+#       print OUT "$simap_to_pfam{$sid}\t";
+#    }
+#    else {
+#       print OUT "$n\t";
+#    }
+#
+#    if (exists $simap_to_tigr{$sid}) {
+#       print OUT "$simap_to_tigr{$sid}\t";
+#    }
+#    else {
+#       print OUT "$n\t";
+#    }
+#
+#    if (exists $simap_to_pir{$sid}) {
+#       print OUT "$simap_to_pir{$sid}\t";
+#    }
+#    else {
+#       print OUT "$n\t";
+#    }
+#    print OUT "\n";
 }
+
+my $arbitrary_breakpoint = "done!";
+print $arbitrary_breakpoint;
 
 __END__
