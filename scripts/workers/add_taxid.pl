@@ -89,7 +89,7 @@ if ($show_version) {
 # set up output
 my $handle   = undef;
 my $encoding = ":encoding(UTF-8)";
-open($handle, "> $encoding", catfile($output_dir, basename($input))) || die "$0: Can't open in write-open mode: $!";
+open ($handle, "> $encoding", catfile($output_dir, basename($input))) || die "$0: Can't open in write-open mode: $!";
 
 # set up input
 open (IN, $input) || die "Cannot open input\n";
@@ -141,16 +141,6 @@ while (<F>) {
    $taxid_to_family{$id} = $family;
 }
 
-
-# open (GOTERM, "/rsgrps/bhurwitz/hurwitzlab/data/reference/goterms/ontology_term.txt");
-# my %goid_to_desc;
-#
-# while (<GOTERM>) {
-#    chomp $_;
-#    my ($id, $cat, $desc, $desc2) = split(/\t/, $_);
-#    $goid_to_desc{$id} = $desc;
-# }
-
 # make a hash of input ids to simap ids for simap
 open( SIMAPHITS, "$input" ) || die "Cannot open hits file\n";
 
@@ -192,120 +182,27 @@ while (<SI>) {
     }
 }
 
-# my $simap_to_go = "$simap_dir/blast2go";
-# open (GO, "$simap_to_go") || die "Cannot open simap_to_go\n";
-# my %simap_to_go;
-# while (<GO>) {
-#    chomp $_;
-#    my ($id, $goid, $score) = split(/\t/, $_);
-#    if (exists $simap_ids{$id}) {
-#       push(@{$simap_to_go{$id}}, $goid);
-#    }
-# }
-
-# my $simap_to_pfam = "$simap_dir/features_HMMPfam";
-# open (PF, "$simap_to_pfam") || die "Cannot open simap_to_pfam\n";
-# my %simap_to_pfam;
-# while (<PF>) {
-#    chomp $_;
-#    my @fields = split(/\t/, $_);
-#    my $id = shift @fields;
-#    if (exists $simap_ids{$id}) {
-#       my $line = join("\t", @fields);
-#       $simap_to_pfam{$id} =  $line;
-#    }
-# }
-
-# my $simap_to_tigr = "$simap_dir/features_HMMTigr";
-# open (T, "$simap_to_tigr") || die "Cannot open simap_to_tigr\n";
-# my %simap_to_tigr;
-# while (<T>) {
-#    chomp $_;
-#    my @fields = split(/\t/, $_);
-#    my $id = shift @fields;
-#    if (exists $simap_ids{$id}) {
-#       my $line = join("\t", @fields);
-#       $simap_to_tigr{$id} =  $line;
-#    }
-# }
-
-# my $simap_to_pir = "$simap_dir/features_HMMPIR";
-# open (P, "$simap_to_pir") || die "Cannot open simap_to_pir\n";
-# my %simap_to_pir;
-# while (<P>) {
-#    chomp $_;
-#    my @fields = split(/\t/, $_);
-#    my $id = shift @fields;
-#    if (exists $simap_ids{$id}) {
-#       my $line = join("\t", @fields);
-#       $simap_to_pir{$id} =  $line;
-#    }
-# }
-
-# go through hits and find their simap_info if it exists
+# go through hits and find their tax_id if it exists
 # Note in this script we are choosing the top hit to
-#  pfam, tigrfam, and pir.  As well as the top tax id.
+# tax id.
+
+###TODO: OK, i don't know what the hell is going on... two problems are than its printing out NONE ... NONE even though I see it going to print $handle "$simap_to_tax{$sid}\n"; in the debugger! and the freaking newlines don't work... need help
 
 while (<IN>) {
    chomp $_;
-   my @fields = split(/\t/, $_);
-   my @none;
-   for my $ct ( 1 .. 12) {
-      push (@none, 'NONE');
-   }
-   my $n = join("\t", @none);
 
-   print OUT "$_\t";
-   my $gid = $fields[0];
-   my $sid = $fields[2];
+   my @fields = split(/\t/, $_);
+
+   print $handle "$_\t";
+
+   my $sid = $fields[1];
 
    if (exists $simap_to_tax{$sid}) {
-      print OUT "$simap_to_tax{$sid}\t";
+      print $handle "$simap_to_tax{$sid}\n";
    }
    else {
-      print OUT "NONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\t";
+      print $handle "NONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\tNONE\n";
    }
-
-   # if (exists $simap_to_go{$sid}) {
-#       my @goids;
-#       my @godesc;
-#       for my $g (@{$simap_to_go{$sid}}) {
-#          push(@goids, $g);
-#          my $desc = 'NONE';
-#          if (exists $goid_to_desc{$g}) {
-#             $desc = $goid_to_desc{$g};
-#          }
-#          push(@godesc, $desc);
-#      }
-#      my $gids = join(",", @goids);
-#      my $gdesc = join(",", @godesc);
-#      print OUT "$gids\t$gdesc\t";
-#    }
-#    else {
-#       print OUT "NONE\tNONE\t";
-#    }
-#
-#    if (exists $simap_to_pfam{$sid}) {
-#       print OUT "$simap_to_pfam{$sid}\t";
-#    }
-#    else {
-#       print OUT "$n\t";
-#    }
-#
-#    if (exists $simap_to_tigr{$sid}) {
-#       print OUT "$simap_to_tigr{$sid}\t";
-#    }
-#    else {
-#       print OUT "$n\t";
-#    }
-#
-#    if (exists $simap_to_pir{$sid}) {
-#       print OUT "$simap_to_pir{$sid}\t";
-#    }
-#    else {
-#       print OUT "$n\t";
-#    }
-#    print OUT "\n";
 }
 
 my $arbitrary_breakpoint = "done!";

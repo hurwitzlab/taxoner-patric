@@ -42,7 +42,7 @@ NUM_FILES=$(lc $TMP_FILES)
 
 echo Processing \"$NUM_FILES\" input files
 
-while read NEXT; do
+while read FASTA; do
 
   FILE="$BLAST_OUT_DIR/$FASTA"
 

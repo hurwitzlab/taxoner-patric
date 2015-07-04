@@ -3,3 +3,4 @@ out
 fasta-split
 blast-out
 tmp.sh
+annot-out
