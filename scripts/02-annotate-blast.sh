@@ -4,8 +4,7 @@
 #
 
 source ./config.sh
-#TODO: just setting step size to 5 for now... change to 100 later
-export STEP_SIZE=5
+export STEP_SIZE=8
 
 PROG=`basename $0 ".sh"`
 STDERR_DIR="$CWD/err/$PROG"
@@ -17,8 +16,7 @@ cd "$BLAST_OUT_DIR"
 
 export FILES_LIST="$BLAST_OUT_DIR/blast-files"
 
-#TODO: Uncomment this later, for now just testing with 10 files so it should be job array of 1-10 in steps of 5
-#find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
+find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=$(lc $FILES_LIST)
 

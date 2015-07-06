@@ -1,12 +1,5 @@
 #!/usr/bin/env perl
 
-### Note to self:
-# /rsgrps/bhurwitz/hurwitzlab/data/reference/simap/proteins.gz
-# is where to lookup taxid with the md5 in blastresults
-# then /rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax/...
-# is where to lookup genus/family/species info (proteins.gz just gives you the species_id
-# (e.g. "7227")
-
 # --------------------------------------------------
 
 =pod
@@ -185,8 +178,6 @@ while (<SI>) {
 # go through hits and find their tax_id if it exists
 # Note in this script we are choosing the top hit to
 # tax id.
-
-###TODO: OK, i don't know what the hell is going on... two problems are than its printing out NONE ... NONE even though I see it going to print $handle "$simap_to_tax{$sid}\n"; in the debugger! and the freaking newlines don't work... need help
 
 while (<IN>) {
    chomp $_;
