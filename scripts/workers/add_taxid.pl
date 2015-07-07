@@ -176,8 +176,6 @@ while (<SI>) {
 }
 
 # go through hits and find their tax_id if it exists
-# Note in this script we are choosing the top hit to
-# tax id.
 
 while (<IN>) {
    chomp $_;
@@ -196,7 +194,7 @@ while (<IN>) {
    }
 }
 
-my $arbitrary_breakpoint = "done!";
+my $arbitrary_breakpoint = "\n...done!\n";
 print $arbitrary_breakpoint;
 
 __END__
