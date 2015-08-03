@@ -32,8 +32,6 @@ if [ -z $SCRIPT_DIR ]; then
   exit 1
 fi
 
-#FASTA=`head -n +${PBS_ARRAY_INDEX} $FILES_LIST | tail -n 1`
-
 TMP_FILES=$(mktemp)
 
 get_lines $FILES_LIST $TMP_FILES ${PBS_ARRAY_INDEX:=1} $STEP_SIZE
