@@ -2,9 +2,9 @@ export CWD=$PWD
 #where programs are
 export BIN_DIR="/rsgrps/bhurwitz/hurwitzlab/bin"
 #input fasta
-export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/test_sequences"
+export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
-export SPLIT_FA_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/fasta-split"
+export SPLIT_FA_DIR="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data/split"
 #place to store blast results (step 01)
 export BLAST_OUT_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blast-out"
 #place to store annotated results (step 02)
