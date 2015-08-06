@@ -10,6 +10,8 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
+module load mpiblast
+
 echo Started `date`
 
 echo Host `hostname`
@@ -26,7 +28,7 @@ OUT_FMT="8" # tabular
 NUM_CPU="12"
 
 cd "$SPLIT_FA_DIR"
-
+###TODO:fix this to work with step_size
 FASTA=`head -n +${PBS_ARRAY_INDEX} $FILES_LIST | tail -n 1`
 
 FILE="$SPLIT_FA_DIR/$FASTA"
@@ -49,7 +51,7 @@ if [ -e $BLAST_CONF_FILE ]; then
             rm -rf $BLAST_OUT
         fi
 
-        $BLAST -p $BLAST_TYPE -a $NUM_THREADS -d $BLAST_DB -i $FILE -o $BLAST_OUT -e $EVAL -m $OUT_FMT
+        mpiexec -np 12 $BLAST -p $BLAST_TYPE -d $BLAST_DB -i $FILE -o $BLAST_OUT -e $EVAL -m $OUT_FMT
 
     done < "$BLAST_CONF_FILE"
 else

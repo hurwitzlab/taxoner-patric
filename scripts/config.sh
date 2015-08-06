@@ -14,15 +14,16 @@ export SCRIPT_DIR="$CWD/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #file that tells us where the blast database(s) are
+#not sure this is needed now that we're using mpiblast
 export BLAST_CONF_FILE="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blastdbs"
-#where blast program is
-export BLAST="/rsgrps/bhurwitz/hurwitzlab/bin/blastall"
-#where simap annotation is
-export SIMAP="/rsgrps/bhurwitz/hurwitzlab/data/reference/simap"
+#where mpiblast program is (still need to 'module load mpiblast' in scripts)
+export BLAST="/uaopt/mpiblast/1.6.0/bin/mpiblast"
 #where taxid annotation is
 export TAXA="/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax"
-#????
-export JOBS=100
+#where the patric bacterial / archaeal genome(s) are
+export PATRIC="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_bacteria"
+#annotation file for PATRIC genomes mapping them to ncbi_taxid
+export PAT_ANN="$PATRIC/genome_summary"
 
 #
 # Some custom functions for our scripts
