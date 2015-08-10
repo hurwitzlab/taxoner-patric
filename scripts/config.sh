@@ -4,6 +4,7 @@ export BIN_DIR="/rsgrps/bhurwitz/hurwitzlab/bin"
 #input fasta
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
+#NB: this has already been generated from uproc_shortread_to_pfam pipeline so using that...
 export SPLIT_FA_DIR="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data/split"
 #place to store blast results (step 01)
 export BLAST_OUT_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blast-out"
@@ -24,7 +25,10 @@ export TAXA="/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax"
 export PATRIC="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_bacteria"
 #annotation file for PATRIC genomes mapping them to ncbi_taxid
 export PAT_ANN="$PATRIC/genome_summary"
-
+#environmental variables required for mpiblast
+export MPIBLAST_SHARED="$PATRIC"
+export MPIBLAST_LOCAL="$PATRIC"
+###TODO: figure out a way to make MPIBLAST_LOCAL point to a scratch local disk on the node
 #
 # Some custom functions for our scripts
 #
