@@ -1,36 +1,24 @@
 export CWD=$PWD
 #where programs are
-export BIN_DIR="/rsgrps/bhurwitz/hurwitzlab/bin"
+export BIN_DIR=$PATH
+#root project dir
+export PRJ_DIR="/home/u18/scottdaniel/blast-pipeline"
 #input fasta
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
-#NB: this has already been generated from uproc_shortread_to_pfam pipeline so using that...
-export SPLIT_FA_DIR="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data/split"
+export SPLIT_FA_DIR="$PRJ_DIR/fasta-split"
 #place to store blast results (step 01)
-export BLAST_OUT_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blast-out"
+export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 #place to store annotated results (step 02)
-export ANNOT_OUT_DIR="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/annot-out"
+export ANNOT_OUT_DIR="$PRJ_DIR/annot-out"
 #where the worker scripts are (PBS batch scripts and their perl workdogs)
-export SCRIPT_DIR="$CWD/workers"
+export SCRIPT_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
-#file that tells us where the blast database(s) are
-#not sure this is needed now that we're using mpiblast
-export BLAST_CONF_FILE="/rsgrps/bhurwitz/scottdaniel/blast-pipeline/blastdbs"
-#where mpiblast program is (still need to 'module load mpiblast' in scripts)
-export BLAST="/uaopt/mpiblast/1.6.0/bin/mpiblast"
+#where bowtie2 database is for taxoner
+export BOWTIEDB="/home/u18/scottdaniel/taxoner/Taxoner/databases/bowtie2" 
 #where taxid annotation is
-export TAXA="/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax"
-#where the patric bacterial / archaeal genome(s) are
-export PATRIC="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_bacteria"
-#annotation file for PATRIC genomes mapping them to ncbi_taxid
-export PAT_ANN="$PATRIC/genome_summary"
-#environmental variables required for mpiblast
-export MPIBLAST_SHARED="$PATRIC"
-export MPIBLAST_LOCAL="$PATRIC"
-###TODO: figure out a way to make MPIBLAST_LOCAL point to a scratch local disk on the node
-#
-# Some custom functions for our scripts
+export TAXA="/home/u18/scottdaniel/taxoner/Taxoner/databases" 
 #
 # --------------------------------------------------
 function init_dir {
