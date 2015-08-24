@@ -1,8 +1,8 @@
 export CWD=$PWD
 #where programs are
-export BIN_DIR=$PATH
+export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
-export PRJ_DIR="/home/u18/scottdaniel/blast-pipeline"
+export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline"
 #input fasta
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
@@ -16,9 +16,9 @@ export SCRIPT_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner
-export BOWTIEDB="/home/u18/scottdaniel/taxoner/Taxoner/databases/bowtie2" 
+export BOWTIEDB="lytic.hpc.arizona.edu:/home/u18/scottdaniel/taxoner/Taxoner/databases/bowtie2" 
 #where taxid annotation is
-export TAXA="/home/u18/scottdaniel/taxoner/Taxoner/databases" 
+export TAXA="lytic.hpc.arizona.edu:/home/u18/scottdaniel/taxoner/Taxoner/databases" 
 #
 # --------------------------------------------------
 function init_dir {
