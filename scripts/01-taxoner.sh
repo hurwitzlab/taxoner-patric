@@ -7,12 +7,14 @@
 source ./config.sh
 
 PROG=`basename $0 ".sh"`
-STDERR_DIR="$CWD/err/$PROG"
+#Just going to put stdout and stderr together into stdout
 STDOUT_DIR="$CWD/out/$PROG"
 
-init_dir "$STDERR_DIR" "$STDOUT_DIR"
+init_dir "$STDOUT_DIR"
 
-if [[ ! -d "$TAXONER_OUT_DIR" ]]; then
+if [[ -d "$TAXONER_OUT_DIR" ]]; then
+    rm -rf $TAXONER_OUT_DIR/*
+else
     mkdir -p "$TAXONER_OUT_DIR"
 fi
 
@@ -24,29 +26,30 @@ find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=$(lc $FILES_LIST)
 
-export DNA1FILES="DNA_1_files"
+if [[ $NUM_FILES -eq 5331 ]]; then
+    while read FASTA; do
+        FULLPATH=$SPLIT_FA_DIR/$FASTA
+            
+        OUT_DIR=$TAXONER_OUT_DIR/$FASTA
 
-egrep ^DNA_1.* split-files > $DNA1FILES
+        if [[ ! -d "$OUT_DIR" ]]; then
+            mkdir -p "$OUT_DIR"
+        fi
 
-while read FASTA; do
-    FULLPATH=$SPLIT_FA_DIR/$FASTA
-    
-    OUT_DIR=$TAXONER_OUT_DIR/$FASTA
+        taxoner64 -t 12 \
+        --dbPath $BOWTIEDB \
+        --taxpath $TAXA/nodes.dmp \
+        --seq $FULLPATH \
+        --output $OUT_DIR \
+        --fasta \
+        -y $PRJ_DIR/scripts/extra_commands.txt &>> $STDOUT_DIR/taxoner64_log
 
-    if [[ ! -d "$OUT_DIR" ]]; then
-        mkdir -p "$OUT_DIR"
-    fi
-
-    #TODO:put in thing to clear out the dir (in case of subsequent runs)
-
-    taxoner -p 12 \
-        -dbPath $BOWTIEDB \
-        -taxpath $TAXA/nodes.dmp \
-        -seq $FULLPATH \
-        -o $OUT_DIR \
-        -fasta -no-unal \
-        &> $SCRIPT_DIR/../log8
-
-done < "$DNA1FILES"
+        rsync -avvz --rsh=ssh $TAXONER_OUT_DIR/* \
+            --remove-source-files \
+            scottdaniel@login:/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/taxoner-out/ \
+            &>> $STDOUT_DIR/tax64_rsync_log
+        
+    done < "$FILES_LIST"
+fi
 
 
