@@ -44,12 +44,7 @@ if [[ $NUM_FILES -eq 5331 ]]; then
         --fasta \
         -y $PRJ_DIR/scripts/extra_commands.txt &>> $STDOUT_DIR/taxoner64_log
 
-        rsync -avvz --rsh=ssh $TAXONER_OUT_DIR/* \
-            --remove-source-files \
-            scottdaniel@login:/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/taxoner-out/ \
-            &>> $STDOUT_DIR/tax64_rsync_log
-        
-    done < "$FILES_LIST"
+   done < "$FILES_LIST"
 fi
 
 
