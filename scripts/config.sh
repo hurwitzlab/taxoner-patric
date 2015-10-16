@@ -6,7 +6,9 @@ export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline"
 #input fasta
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
-export SPLIT_FA_DIR="$PRJ_DIR/fasta-split"
+export ALT_DATA="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data"
+export SPLIT_FA_DIR="$ALT_DATA/split"
+#export SPLIT_FA_DIR="$PRJ_DIR/fasta-split"
 #place to store blast results (step 01)
 export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 #place to store annotated results (step 02)
@@ -16,9 +18,9 @@ export SCRIPT_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner
-export BOWTIEDB="lytic.hpc.arizona.edu:/home/u18/scottdaniel/taxoner/Taxoner/databases/bowtie2" 
+export BOWTIEDB="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
 #where taxid annotation is
-export TAXA="lytic.hpc.arizona.edu:/home/u18/scottdaniel/taxoner/Taxoner/databases" 
+export TAXA="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/ncbitax"
 #
 # --------------------------------------------------
 function init_dir {
