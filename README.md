@@ -1,13 +1,11 @@
-blast-pipeline
+taxoner-patric
 ==============
 
-BLAST (or other mapping software) pipeline code.
-
-This branch is to work with taxoner, a bowtie2 based solution to mapping reads to a metagenome 
+This is to work with taxoner64, a bowtie2 based solution to mapping reads to a metagenome 
 Google: https://code.google.com/p/taxoner/
 Github: https://github.com/r78v10a07/taxoner
 
-if (taxoner works):
-    This branch may become its own project one day
-else
-    destroy branch
+and with PATRIC, a database of bacterial genomes
+https://www.patricbrc.org/portal/portal/patric/Genomes
+
+# Patric genomes must be in bowtie2 format
