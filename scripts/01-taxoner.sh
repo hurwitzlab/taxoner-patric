@@ -4,7 +4,10 @@
 # This script is intended to use taxoner to map fastas to a metagenome 
 #
 
+set -u
 source ./config.sh
+export CWD="$PWD"
+export STEP_SIZE=100
 
 PROG=`basename $0 ".sh"`
 #Just going to put stdout and stderr together into stdout
@@ -20,31 +23,16 @@ fi
 
 cd "$SPLIT_FA_DIR"
 
-export FILES_LIST="split-files"
+export FILES_LIST="$PRJ_DIR/split-files"
 
-find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
+find . -type f -iwholename \*DNA_2\*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=$(lc $FILES_LIST)
 
-if [[ $NUM_FILES -eq 5331 ]]; then
-    while read FASTA; do
-        FULLPATH=$SPLIT_FA_DIR/$FASTA
-            
-        OUT_DIR=$TAXONER_OUT_DIR/$FASTA
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -v PRJ_DIR,STEP_SIZE,SCRIPT_DIR,BIN_DIR,FILES_LIST,SPLIT_FA_DIR,TAXONER_OUT_DIR -N taxoner64 -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-taxoner.sh)
 
-        if [[ ! -d "$OUT_DIR" ]]; then
-            mkdir -p "$OUT_DIR"
-        fi
-
-        taxoner64 -t 12 \
-        --dbPath $BOWTIEDB \
-        --taxpath $TAXA/nodes.dmp \
-        --seq $FULLPATH \
-        --output $OUT_DIR \
-        --fasta \
-        -y $PRJ_DIR/scripts/extra_commands.txt &>> $STDOUT_DIR/taxoner64_log
-
-   done < "$FILES_LIST"
+if [ $? -eq 0 ]; then
+  echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\" Remember: time you enjoy wasting is not wasted time.
+else
+  echo -e "\nError submitting job\n$JOB\n"
 fi
-
-
