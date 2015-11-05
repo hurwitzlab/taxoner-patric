@@ -53,7 +53,7 @@ while read FASTA; do
         mkdir -p "$OUT_DIR"
     fi
     
-    if [[ -z $(find ./ -iname Taxonomy.txt) ]]; then
+    if [[ -z $(find $OUT_DIR -iname Taxonomy.txt) ]]; then
         echo "Processing $FASTA"
     else
         echo "Taxonomy.txt already exists, skipping..."
