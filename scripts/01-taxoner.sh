@@ -25,7 +25,7 @@ cd "$SPLIT_FA_DIR"
 
 export FILES_LIST="$PRJ_DIR/split-files"
 
-find . -type f -iwholename \*DNA_2\*.fa | sed "s/^\.\///" > $FILES_LIST
+find . -type f -iname \*.fa | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=$(lc $FILES_LIST)
 
