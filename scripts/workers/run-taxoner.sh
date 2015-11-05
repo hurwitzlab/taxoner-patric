@@ -6,8 +6,8 @@
 #PBS -l select=1:ncpus=12:mem=23gb
 #PBS -l pvmem=46gb
 #PBS -l place=pack:shared
-#PBS -l walltime=24:00:00
-#PBS -l cput=24:00:00
+#PBS -l walltime=48:00:00
+#PBS -l cput=48:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
@@ -51,6 +51,13 @@ while read FASTA; do
 
     if [[ ! -d "$OUT_DIR" ]]; then
         mkdir -p "$OUT_DIR"
+    fi
+    
+    if [[ -z $(find ./ -iname Taxonomy.txt) ]]; then
+        echo "Processing $FASTA"
+    else
+        echo "Taxonomy.txt already exists, skipping..."
+        continue
     fi
 
     taxoner64 -t 12 \
