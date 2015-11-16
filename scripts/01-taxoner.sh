@@ -29,7 +29,6 @@ echo "Finding fasta's"
 
 find . -type f -iname \*.fa | sed "s/^\.\///" > $FILES_LIST
 
-<<<<<<< HEAD
 echo "Checking if already processed"
 
 if [ -e $PRJ_DIR/files-to-process ]; then
