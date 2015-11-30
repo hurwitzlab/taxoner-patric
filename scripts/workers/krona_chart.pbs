@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+#Script to take taxonomy counts for the 4 DNA samples and make a taxonomy chart with krona tools
+
+#PBS -W group_list=bhurwitz
+#PBS -q standard
+#PBS -l jobtype=cluster_only
+#PBS -l select=1:ncpus=6:mem=11gb:pcmem=2gb
+#PBS -l walltime=12:00:00
+#PBS -l cput=12:00:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+#PBS -o pbs_logs/
+#PBS -e pbs_logs/
+
+source /usr/share/Modules/init/bash
+
+cd $PBS_O_WORKDIR
+source ./config.sh
+
+if [ ! -d $KRONA_OUT_DIR ]; then
+    mkdir -p $KRONA_OUT_DIR
+fi
+
+cd $TAXONER_OUT_DIR
+
+#Only need to do this if the files don't exist
+if [[ ! -s DNA_4_Taxonomy.txt ]]; then
+    find ./ -path \*DNA_4\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_4_Taxonomy.txt
+fi
+
+if [[ ! -s DNA_3_Taxonomy.txt ]]; then
+    find ./ -path \*DNA_3\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_3_Taxonomy.txt
+fi
+
+if [[ ! -s DNA_2_Taxonomy.txt ]]; then
+    find ./ -path \*DNA_2\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_2_Taxonomy.txt
+fi
+
+if [[ ! -s DNA_1_Taxonomy.txt ]]; then
+    find ./ -path \*DNA_1\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_1_Taxonomy.txt
+fi
+
+ktImportTaxonomy \
+    -o $KRONA_OUT_DIR/mouse_microbiome_taxa_patric.html \
+    -a \
+    -q 1 \
+    -t 2 \
+    -s 4 \
+    DNA_1_Taxonomy.txt,DNA_1 \
+    DNA_2_Taxonomy.txt,DNA_2 \
+    DNA_3_Taxonomy.txt,DNA_3 \
+    DNA_4_Taxonomy.txt,DNA_4
