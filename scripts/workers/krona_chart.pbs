@@ -5,49 +5,51 @@
 #PBS -W group_list=bhurwitz
 #PBS -q standard
 #PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=6:mem=11gb:pcmem=2gb
+#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
 #PBS -l walltime=12:00:00
 #PBS -l cput=12:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
-#PBS -o pbs_logs/
-#PBS -e pbs_logs/
-
-source /usr/share/Modules/init/bash
-
-cd $PBS_O_WORKDIR
-source ./config.sh
-
-if [ ! -d $KRONA_OUT_DIR ]; then
-    mkdir -p $KRONA_OUT_DIR
-fi
 
 cd $TAXONER_OUT_DIR
 
 #Only need to do this if the files don't exist
-if [[ ! -s DNA_4_Taxonomy.txt ]]; then
-    find ./ -path \*DNA_4\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_4_Taxonomy.txt
+if [[ ! -s $KRONA_OUT_DIR/DNA_4_Taxonomy.txt ]]; then
+    echo Doing DNA_4
+    time find ./ -path \*DNA_4\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_4_Taxonomy.txt
+else
+    echo DNA_4 already done
 fi
 
-if [[ ! -s DNA_3_Taxonomy.txt ]]; then
-    find ./ -path \*DNA_3\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_3_Taxonomy.txt
+if [[ ! -s $KRONA_OUT_DIR/DNA_3_Taxonomy.txt ]]; then
+    echo Doing DNA_3
+    time find ./ -path \*DNA_3\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_3_Taxonomy.txt
+else
+    echo DNA_3 already done
 fi
 
-if [[ ! -s DNA_2_Taxonomy.txt ]]; then
-    find ./ -path \*DNA_2\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_2_Taxonomy.txt
+if [[ ! -s $KRONA_OUT_DIR/DNA_2_Taxonomy.txt ]]; then
+    echo Doing DNA_2
+    time find ./ -path \*DNA_2\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_2_Taxonomy.txt
+else
+    echo DNA_2 already done
 fi
 
-if [[ ! -s DNA_1_Taxonomy.txt ]]; then
-    find ./ -path \*DNA_1\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_1_Taxonomy.txt
+if [[ ! -s $KRONA_OUT_DIR/DNA_1_Taxonomy.txt ]]; then
+    echo Doing DNA_1
+    time find ./ -path \*DNA_1\* -iname taxonomy.txt -print0 | xargs -0 -I file cat file > $KRONA_OUT_DIR/DNA_1_Taxonomy.txt
+else
+    echo DNA_1 already done
 fi
 
-ktImportTaxonomy \
+echo Making Krona Charts
+time ktImportTaxonomy \
     -o $KRONA_OUT_DIR/mouse_microbiome_taxa_patric.html \
     -a \
     -q 1 \
     -t 2 \
     -s 4 \
-    DNA_1_Taxonomy.txt,DNA_1 \
-    DNA_2_Taxonomy.txt,DNA_2 \
-    DNA_3_Taxonomy.txt,DNA_3 \
-    DNA_4_Taxonomy.txt,DNA_4
+    $KRONA_OUT_DIR/DNA_1_Taxonomy.txt,DNA_1 \
+    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_3 \
+    $KRONA_OUT_DIR/DNA_3_Taxonomy.txt,DNA_3 \
+    $KRONA_OUT_DIR/DNA_4_Taxonomy.txt,DNA_4
