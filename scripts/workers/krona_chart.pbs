@@ -50,6 +50,6 @@ time ktImportTaxonomy \
     -t 2 \
     -s 4 \
     $KRONA_OUT_DIR/DNA_1_Taxonomy.txt,DNA_1 \
-    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_3 \
+    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_2 \
     $KRONA_OUT_DIR/DNA_3_Taxonomy.txt,DNA_3 \
     $KRONA_OUT_DIR/DNA_4_Taxonomy.txt,DNA_4

@@ -13,6 +13,8 @@ export SPLIT_FA_DIR="$ALT_DATA/split"
 export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 #place to store krona results (step 02)
 export KRONA_OUT_DIR="$PRJ_DIR/krona-out"
+#place to store taxon counts (step 03)
+export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 #where the worker scripts are (PBS batch scripts and their perl workdogs)
 export SCRIPT_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files

@@ -3,7 +3,7 @@
 #
 #This script is intended to run kronatools on your samples 
 #
-
+unset module
 set -u
 source ./config.sh
 export CWD="$PWD"
