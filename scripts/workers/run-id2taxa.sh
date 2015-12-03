@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ####Adjust memory as needed for size of input####
 
@@ -17,7 +17,7 @@ source /usr/share/Modules/init/bash
 set -u
 #-u  Treat unset variables as an error when substituting.
 
-COMMON="$WORKERS_DIR/common.sh"
+COMMON="$SCRIPT_DIR/common.sh"
 
 if [ -e $COMMON ]; then
   . "$COMMON"
@@ -64,7 +64,7 @@ while read INPUT; do
         rm -rf $OUTPUT_FILE2
     fi
 
-    $WORKERS_DIR/id2tax.py -f $FILE --out1 $OUTPUT_FILE1 --out2 $OUTPUT_FILE2 \
+    $SCRIPT_DIR/id2tax.py -f $FILE --out1 $OUTPUT_FILE1 --out2 $OUTPUT_FILE2 \
 
 done < "$TMP_FILES"
 

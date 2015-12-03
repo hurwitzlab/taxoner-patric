@@ -27,7 +27,7 @@ cd $KRONA_OUT_DIR
 
 export TAXA_TEXT_FILES="$PRJ_DIR/taxa_files"
 
-find . -type f -iname \*.Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
+find . -maxdepth 1 -type f -iname \*Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
 
 NUM_FILES=$(lc $TAXA_TEXT_FILES)
 
@@ -35,7 +35,7 @@ echo \"Found $NUM_FILES to process\"
 
 echo Submitting job...
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-id2tax.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-id2taxa.sh)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you. Ya ya ya.
