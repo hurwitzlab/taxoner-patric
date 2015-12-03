@@ -9,8 +9,7 @@ unset module
 set -u
 source ./config.sh
 export CWD="$PWD"
-#export NUM_FILES=4 #only have four samples, adjust as needed
-#export STEP_SIZE=1 #adjust as needed
+export STEP_SIZE=1 #adjust as needed
 
 echo Setting up log files...
 PROG=`basename $0 ".sh"`
@@ -19,20 +18,27 @@ STDOUT_DIR="$CWD/out/$PROG"
 
 init_dir "$STDOUT_DIR"
 
-#This is where you would put stuff to find all your samples
-#And then make a list of files, change $NUM_FILES, etc.
-
 echo Making output dir...
-if [ ! -d $KRONA_OUT_DIR ]; then
-    mkdir -p $KRONA_OUT_DIR
+if [ ! -d $COUNT_OUT_DIR ]; then
+    mkdir -p $COUNT_OUT_DIR
 fi
+
+cd $KRONA_OUT_DIR
+
+export TAXA_TEXT_FILES="$PRJ_DIR/taxa_files"
+
+find . -type f -iname \*.Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
+
+NUM_FILES=$(lc $TAXA_TEXT_FILES)
+
+echo \"Found $NUM_FILES to process\"
 
 echo Submitting job...
 
-JOB=$(qsub -V -N krona -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/krona_chart.pbs)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-id2tax.sh)
 
 if [ $? -eq 0 ]; then
-  echo Submitted job \"$JOB\" for you. Do or do not. There is no try.
+  echo Submitted job \"$JOB\" for you. Ya ya ya.
 else
   echo -e "\nError submitting job\n$JOB\n"
 fi
