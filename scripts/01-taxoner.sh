@@ -57,7 +57,7 @@ NUM_FILES=$(lc $FILES_TO_PROCESS)
 
 echo \"Found $NUM_FILES to process\"
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -v PRJ_DIR,STEP_SIZE,SCRIPT_DIR,BIN_DIR,FILES_TO_PROCESS,SPLIT_FA_DIR,TAXONER_OUT_DIR -N taxoner64 -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-taxoner.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -v PRJ_DIR,STEP_SIZE,WORKER_DIR,BIN_DIR,FILES_TO_PROCESS,SPLIT_FA_DIR,TAXONER_OUT_DIR -N taxoner64 -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-taxoner.sh)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\" Remember: time you enjoy wasting is not wasted time.

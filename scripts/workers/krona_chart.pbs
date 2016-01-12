@@ -47,12 +47,12 @@ fi
 #enter in the start point (ex: 192292 in this instance)
 echo Making Krona Charts
 time ktImportTaxonomy \
-    -o $KRONA_OUT_DIR/mouse_microbiome_taxa_patric.html \
+    -o $KRONA_OUT_DIR/higher_qual_mouse_microbiome_taxa_patric.html \
     -a \
     -q 1 \
     -t 2 \
     -s 4 \
-    $KRONA_OUT_DIR/DNA_1_Taxonomy.txt,DNA_1 \
-    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_2 \
-    $KRONA_OUT_DIR/DNA_3_Taxonomy.txt,DNA_3 \
-    $KRONA_OUT_DIR/DNA_4_Taxonomy.txt,DNA_4
+    $KRONA_OUT_DIR/filtered_DNA_1_Taxonomy.txt,DNA_1 \
+    $KRONA_OUT_DIR/filtered_DNA_2_Taxonomy.txt,DNA_2 \
+    $KRONA_OUT_DIR/filtered_DNA_3_Taxonomy.txt,DNA_3 \
+    $KRONA_OUT_DIR/filtered_DNA_4_Taxonomy.txt,DNA_4

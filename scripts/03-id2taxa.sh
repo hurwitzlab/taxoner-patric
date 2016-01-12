@@ -35,7 +35,7 @@ echo \"Found $NUM_FILES to process\"
 
 echo Submitting job...
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $SCRIPT_DIR/run-id2taxa.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-id2taxa.sh)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you. Ya ya ya.

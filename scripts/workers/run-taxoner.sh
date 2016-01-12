@@ -21,7 +21,7 @@ else
     exit 12385
 fi
 
-COMMON="$SCRIPT_DIR/common.sh"
+COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
   . "$COMMON"

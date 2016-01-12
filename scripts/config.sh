@@ -1,4 +1,5 @@
 export CWD=$PWD
+export SCRIPT_DIR=$CWD
 #where programs are
 export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
@@ -15,8 +16,10 @@ export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 export KRONA_OUT_DIR="$PRJ_DIR/krona-out"
 #place to store taxon counts (step 03)
 export COUNT_OUT_DIR="$PRJ_DIR/count-out"
+#place to store list of reads that will be shunted to an assembler (opt-step)
+export READ_OUT_DIR="$PRJ_DIR/read-out"
 #where the worker scripts are (PBS batch scripts and their python/perl workdogs)
-export SCRIPT_DIR="$PRJ_DIR/scripts/workers"
+export WORKER_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner

@@ -17,7 +17,7 @@ source /usr/share/Modules/init/bash
 set -u
 #-u  Treat unset variables as an error when substituting.
 
-COMMON="$SCRIPT_DIR/common.sh"
+COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
   . "$COMMON"
@@ -26,8 +26,8 @@ else
   exit 1
 fi
 
-if [ -z $SCRIPT_DIR ]; then
-  echo Missing SCRIPT_DIR
+if [ -z $WORKER_DIR ]; then
+  echo Missing WORKER_DIR
   exit 1
 fi
 
@@ -64,7 +64,7 @@ while read INPUT; do
         rm -rf $OUTPUT_FILE2
     fi
 
-    $SCRIPT_DIR/id2tax.py -f $FILE --out1 $OUTPUT_FILE1 --out2 $OUTPUT_FILE2 \
+    $WORKER_DIR/id2tax.py -f $FILE --out1 $OUTPUT_FILE1 --out2 $OUTPUT_FILE2 \
 
 done < "$TMP_FILES"
 
