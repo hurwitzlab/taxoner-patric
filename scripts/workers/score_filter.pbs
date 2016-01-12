@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+#Script to filter krona_out files by alignment score and make new files for krona to generate a chart from
+#Or to get bad quality alignments to run through assembly
+
+#PBS -W group_list=bhurwitz
+#PBS -q standard
+#PBS -l jobtype=cluster_only
+#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
+#PBS -l walltime=12:00:00
+#PBS -l cput=12:00:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+
+echo Started at $(date)
+
+cd $PBS_O_WORKDIR
+source ./common.sh
+source ../config.sh
+
+cd $KRONA_OUT_DIR
+gawk -F '\t' '$4 <= 2 {print $0}' DNA_1_Taxonomy.txt > lowqual_DNA_1_Taxonomy.txt
+
+gawk -F '\t' '$4 <= 2 {print $0}' DNA_2_Taxonomy.txt > lowqual_DNA_2_Taxonomy.txt
+
+gawk -F '\t' '$4 <= 2 {print $0}' DNA_3_Taxonomy.txt > lowqual_DNA_3_Taxonomy.txt
+
+gawk -F '\t' '$4 <= 2 {print $0}' DNA_4_Taxonomy.txt > lowqual_DNA_4_Taxonomy.txt
+
+echo Done at $(date)
