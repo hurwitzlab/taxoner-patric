@@ -48,6 +48,8 @@ echo Found \"$NUM_FILES\" files to process
 
 while read SAM; do
     FULLPATH=$TAXONER_OUT_DIR/$SAM
+
+    echo Processing $FULLPATH
     
     OUT_DIR=$READ_OUT_DIR/$(dirname $SAM)
 
@@ -55,16 +57,17 @@ while read SAM; do
         mkdir -p "$OUT_DIR"
     fi
     
-    if [[ -z $(find $OUT_DIR -iname \*.unaligned.fasta) ]]; then
-        echo "Processing $SAM"
-    else
-        echo "Unaligned fasta already exists, skipping..."
-        continue
-    fi
     #gets the plain name "0.fasta.sam"
     NAME=$(basename $SAM)
     #gets the leading number "0"
     NUM=$(echo $NAME | sed s/[^0-9]//g)
+   
+    if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fasta) ]]; then
+        echo "Processing $FULLPATH"
+    else
+        echo "$NUM.unaligned.fasta for $FULLPATH already exists, skipping..."
+        continue
+    fi
 
     samtools fasta -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fasta
 

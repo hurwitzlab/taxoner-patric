@@ -25,15 +25,9 @@ init_dir "$STDOUT_DIR"
 
 taxoner64 -t 12 \
     --dbPath $BOWTIEDB \
-    --taxpath $TAXA/nodes.dmp \
+    --taxpath $TAXA \
     --seq $SPLIT_FA_DIR/DNA_2_TGACCA_L002_R1_001.fa/01.fa \
-    --output /gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/taxoner-out-test \
+    --output /$TAXONER_OUT_DIR/taxoner-out-test \
     --fasta \
-    -e \
-    -y ./extra_commands.txt &>> $STDOUT_DIR/taxoner64_log
-
-#rsync -avvz --rsh=ssh $TAXONER_OUT_DIR/* \
-#    --remove-source-files \
-#    scottdaniel@login:/gsfs1/rsgrps/bhurwitz/scottdaniel/blast-pipeline/taxoner-out/ \
-#    &>> $STDOUT_DIR/rsync_log
-# 
+    -y ./extra_commands.txt
+ 

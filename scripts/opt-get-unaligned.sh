@@ -39,10 +39,15 @@ export FILES_TO_PROCESS="$PRJ_DIR/sams-to-process"
 
 while read SAM; do
 
-    OUT_DIR=$READ_OUT_DIR/$SAM
+    OUT_DIR=$READ_OUT_DIR/$(dirname $SAM)
+
+    #gets the plain name "0.fasta.sam"
+    NAME=$(basename $SAM)
+    #gets the leading number "0"
+    NUM=$(echo $NAME | sed s/[^0-9]//g)
 
     if [[ -d $OUT_DIR ]]; then
-        if [[ -z $(find $OUT_DIR -iname \*.fasta) ]]; then
+        if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fasta) ]]; then
             echo $SAM >> $FILES_TO_PROCESS
         else
             continue
