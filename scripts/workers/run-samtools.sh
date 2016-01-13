@@ -49,8 +49,6 @@ echo Found \"$NUM_FILES\" files to process
 while read SAM; do
     FULLPATH=$TAXONER_OUT_DIR/$SAM
 
-    echo Processing $FULLPATH
-    
     OUT_DIR=$READ_OUT_DIR/$(dirname $SAM)
 
     if [[ ! -d "$OUT_DIR" ]]; then
