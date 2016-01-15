@@ -5,7 +5,8 @@ export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
 export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/taxoner-patric"
 #input fasta
-export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
+export FASTA_DIR="$PRJ_DIR/fasta"
+#export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
 export ALT_DATA="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data"
 export SPLIT_FA_DIR="$ALT_DATA/split"
@@ -18,6 +19,8 @@ export KRONA_OUT_DIR="$PRJ_DIR/krona-out"
 export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 #place to store list of reads that will be shunted to an assembler (opt-step)
 export READ_OUT_DIR="$PRJ_DIR/read-out"
+#place to store sequences of low quality that will be assembled (opt-step)
+export LOW_QUAL_DIR="$PRJ_DIR/lq-out"
 #where the worker scripts are (PBS batch scripts and their python/perl workdogs)
 export WORKER_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
