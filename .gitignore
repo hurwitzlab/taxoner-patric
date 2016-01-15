@@ -27,3 +27,4 @@ scripts/workers/ncbi-taxoner-results-files
 search_test/
 split-files
 taxa_files
+test-search.sh

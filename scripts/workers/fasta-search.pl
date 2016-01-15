@@ -36,19 +36,20 @@ sub main {
     #The database, if this wasn't created before this will take a loooong time!
     my $db  = Bio::DB::Fasta->new($dir);
 
-    printf "Made the database '%s'\n", $db;
-
     #The read_id file, one id per line
     open my $READ_ID_FILE, '<', $read_id_file;
 
     #We'll store the read_ids in an array
     my @read_ids;
-    (my $filename = $read_id_file) =~ s/\W//g;
-    $filename ||= 'out';
-    $filename .= '.fa';
-    my $writer = Bio::SeqIO->new(-format => 'Fasta', -file => ">$out_dir/$filename");
 
-    printf "Writing out to '%s'\n", $writer;
+    #Create a name
+    (my $number = $read_id_file) =~ s/[^0-9]//g; 
+
+    my $filename = 'DNA_' . $number . '_results.fa';
+
+    printf "Filename is '%s'\n", $filename;
+
+    my $writer = Bio::SeqIO->new(-format => 'Fasta', -file => ">$out_dir/$filename");
 
     my $found = 0;
     while (<$READ_ID_FILE>) {
@@ -58,7 +59,7 @@ sub main {
 
 #HWI-ST885:65:C07WUACXX:7:1101:10000:22995   1068975 304030  1.925   17938   18005
             my $read_id = $cols[0];
-            say "read_id ($read_id)";
+            #say "read_id ($read_id)";
             if (my $seq = $db->get_Seq_by_id($read_id)) {
                 $found++;
                 $writer->write_seq($seq);
