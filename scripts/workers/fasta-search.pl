@@ -26,15 +26,15 @@ sub main {
     pod2usage() unless @ARGV == 3;
 
     #Command be like: perl ./fasta-search.pl $TEST_DB $TEST_SQ $TEST_OUT_DIR
-    my ($dir, $read_id_file, $out_dir) = @ARGV;
+    my ($dir_or_file, $read_id_file, $out_dir) = @ARGV;
 
-    printf "Searching '%s'\n", $dir;
+    printf "Searching '%s'\n", $dir_or_file;
 
     #Setting up inputs and outpus
 
        
     #The database, if this wasn't created before this will take a loooong time!
-    my $db  = Bio::DB::Fasta->new($dir);
+    my $db  = Bio::DB::Fasta->new($dir_or_file);
 
     #The read_id file, one id per line
     open my $READ_ID_FILE, '<', $read_id_file;
@@ -43,7 +43,7 @@ sub main {
     my @read_ids;
 
     #Create a name
-    (my $number = $read_id_file) =~ s/[^0-9]//g; 
+    (my $number = basename($read_id_file)) =~ s/[^0-9]//g; 
 
     my $filename = 'DNA_' . $number . '_results.fa';
 

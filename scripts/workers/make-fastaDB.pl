@@ -25,11 +25,11 @@ sub main {
 
     pod2usage() unless @ARGV == 1;
 
-    my ($dir) = @ARGV;
+    my ($file) = @ARGV;
 
-    printf "Making BioDBFasta from '%s'\n", $dir;
+    printf "Making BioDBFasta from '%s'\n", $file;
 
-    my $db  = Bio::DB::Fasta->new($dir);
+    my $db  = Bio::DB::Fasta->new($file);
 
 }
 

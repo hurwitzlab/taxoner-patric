@@ -27,7 +27,7 @@ export FILES_LIST="$PRJ_DIR/split-files"
 
 echo "Finding fasta's"
 
-find . -type f -iname \*.fa | sed "s/^\.\///" > $FILES_LIST
+find . -type f -iname \*.fa | sed "s/^\.\///" > $FILES_LIST 
 
 echo "Checking if already processed"
 

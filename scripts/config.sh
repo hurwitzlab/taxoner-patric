@@ -21,6 +21,8 @@ export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 export READ_OUT_DIR="$PRJ_DIR/read-out"
 #place to store sequences of low quality that will be assembled (opt-step)
 export LOW_QUAL_DIR="$PRJ_DIR/lq-out"
+#place to store concatenated sequences from READ_OUT and LOW_QUAL
+export CAT_OUT="$PRJ_DIR/for-upload"
 #where the worker scripts are (PBS batch scripts and their python/perl workdogs)
 export WORKER_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
