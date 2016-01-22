@@ -28,3 +28,15 @@ search_test/
 split-files
 taxa_files
 test-search.sh
+DNA_1-db-list
+DNA_2-db-list
+DNA_3-db-list
+DNA_4-db-list
+db-list
+dirs-to-cat
+for-upload/
+low-qual-files
+makedb-files
+makedb-files-to-process
+quickie.pbs
+upload.pbs

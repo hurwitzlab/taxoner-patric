@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+#Script to take unaligned fasta and merge 
+
+#PBS -W group_list=bhurwitz
+#PBS -q standard
+#PBS -l jobtype=cluster_only
+#PBS -l select=1:ncpus=2:mem=3gb:pcmem=2gb
+#PBS -l pvmem=6gb
+#PBS -l walltime=24:10:00
+#PBS -l cput=24:10:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+
+cd $PBS_O_WORKDIR
+
+CONFIG="$PRJ_DIR/scripts/config.sh"
+
+if [ -e $CONFIG ]; then
+    . "$CONFIG"
+else
+    echo MIssing config \"$CONFIG\"
+    exit 12385
+fi
+
+COMMON="$WORKER_DIR/common.sh"
+
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
+
+TMP_FILES=$(mktemp)
+
+get_lines $DIR_LIST $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+
+NUM_DIRS=$(lc $TMP_FILES)
+
+echo Found \"$NUM_DIRS\" files to process
+
+while read DIR; do
+    
+    SHORT_NAME=$(basename $DIR)
+
+    if [[ ! -s $CAT_OUT_DIR/$SHORT_NAME.lowqual ]]; then
+        echo Doing $SHORT_NAME
+        time find $DIR -type f -iname \*.fa -print0 \
+            | xargs -0 -I file cat file \
+            | fasta_formatter -w 0 \
+            | fastx_collapser -v > $CAT_OUT_DIR/$SHORT_NAME.lowqual
+    else
+        echo $SHORT_NAME already done
+    fi
+
+done < $TMP_FILES
+#Only need to do this if the files don't exist
+#Searches by sample name for fastas to cat, then pastes them all together
+#Then filteres through 'fastx_collapser' to remove duplicates
+#May have to run through 'fastx_collapser' one more time because
+#I'm not sure about streaming effects
+
+#if [[ ! -s $READ_OUT_DIR/DNA_4_unaligned ]]; then
+#    echo Doing DNA_4
+#    time find ./ -path \*DNA_4\* -type f -iname \*.fasta -print0 | xargs -0 -I file cat file | fastx_collapser -v -o $CAT_OUT_DIR/DNA_4_unaligned
+#else
+#    echo DNA_4 already done
+#fi
+#
+#if [[ ! -s $READ_OUT_DIR/DNA_3_unaligned ]]; then
+#    echo Doing DNA_3
+#    time find ./ -path \*DNA_3\* -type f -iname \*.fasta -print0 | xargs -0 -I file cat file | fastx_collapser -v -o $CAT_OUT_DIR/DNA_3_unaligned
+#else
+#    echo DNA_3 already done
+#fi
+#
+#if [[ ! -s $READ_OUT_DIR/DNA_2_unaligned ]]; then
+#    echo Doing DNA_2
+#    time find ./ -path \*DNA_2\* -type f -iname \*.fasta -print0 | xargs -0 -I file cat file | fastx_collapser -v -o $CAT_OUT_DIR/DNA_2_unaligned
+#else
+#    echo DNA_2 already done
+#fi
+#
+#if [[ ! -s $READ_OUT_DIR/DNA_1_unaligned ]]; then
+#    echo Doing DNA_1
+#    time find ./ -path \*DNA_1\* -type f -iname \*.fasta -print0 | xargs -0 -I file cat file | fastx_collapser -v -o $CAT_OUT_DIR/DNA_1_unaligned
+#else
+#    echo DNA_1 already done
+#fi
+#
