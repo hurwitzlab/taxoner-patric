@@ -27,7 +27,7 @@ cd $KRONA_OUT_DIR
 
 export TAXA_TEXT_FILES="$PRJ_DIR/taxa_files"
 
-find . -maxdepth 1 -type f -iname \*Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
+find . -maxdepth 1 -type f -iname \*filtered\*Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
 
 NUM_FILES=$(lc $TAXA_TEXT_FILES)
 

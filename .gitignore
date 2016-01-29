@@ -40,3 +40,4 @@ makedb-files
 makedb-files-to-process
 quickie.pbs
 upload.pbs
+high-qual-count-out
