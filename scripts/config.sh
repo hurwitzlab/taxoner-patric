@@ -5,12 +5,17 @@ export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
 export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/taxoner-patric"
 #input fasta
-export FASTA_DIR="$PRJ_DIR/fasta"
-#export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
+#export FASTA_DIR="$PRJ_DIR/fasta"
+export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
 #place to store split-up fasta (step 00)
 export ALT_DATA="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data"
 export SPLIT_FA_DIR="$ALT_DATA/split"
 #export SPLIT_FA_DIR="$PRJ_DIR/fasta-split"
+
+#place that original fastq's are
+export FASTQ_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
+#place to store split up fastq's for searching later
+export SPLIT_FQ_DIR="$PRJ_DIR/split-fastq"
 #place to store taxoner results (step 01)
 export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 #place to store krona results (step 02)
