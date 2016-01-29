@@ -52,7 +52,7 @@ while read DB; do
 
     fi
 
-    OUT_DIR=$LOW_QUAL_DIR/$DB
+    OUT_DIR=$HIGH_QUAL_DIR/$DB
     
     IN_DB=$SPLIT_FA_DIR/$DB
 

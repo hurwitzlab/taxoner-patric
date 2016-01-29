@@ -18,6 +18,8 @@ export KRONA_OUT_DIR="$PRJ_DIR/krona-out"
 #place to store taxon counts (step 03)
 #export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 export COUNT_OUT_DIR="$PRJ_DIR/high-qual-count-out"
+#place to store goodly mapped reads
+export HIGH_QUAL_DIR="$PRJ_DIR/hq-out"
 #place to store list of reads that will be shunted to an assembler (opt-step)
 export READ_OUT_DIR="$PRJ_DIR/read-out"
 #place to store sequences of low quality that will be assembled (opt-step)
