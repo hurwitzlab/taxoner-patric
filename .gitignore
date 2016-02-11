@@ -38,6 +38,6 @@ for-upload/
 low-qual-files
 makedb-files
 makedb-files-to-process
-quickie.pbs
-upload.pbs
 high-qual-count-out
+curl_output.txt
+high-qual-files

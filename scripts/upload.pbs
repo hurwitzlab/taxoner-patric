@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+#PBS -W group_list=bhurwitz
+#PBS -q standard
+#PBS -l jobtype=serial
+#PBS -l select=1:ncpus=2:mem=3gb:pcmem=2gb
+#PBS -l pvmem=6gb
+#PBS -l walltime=24:00:00
+#PBS -l cput=24:00:00
+#PBS -o out/
+#PBS -e out/
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+
+cd $PBS_O_WORKDIR
+
+CONFIG="./config.sh"
+
+if [ -e $CONFIG ]; then
+    . "$CONFIG"
+else
+    echo Missing config \"$CONFIG\"
+    exit 12385
+fi
+
+COMMON="$WORKER_DIR/common.sh"
+
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
+
+cd $CAT_OUT_DIR
+
+array=( DNA_1 DNA_2 DNA_3 DNA_4 )
+
+for i in "${array[@]}"; do
+    echo \"Uploading all$i.fa.gz\"
+    curl -H "auth: bccwxZPbqGbkRtdeDYPHA86jZ" -X POST -F "upload=@./all$i.fa.gz" "http://api.metagenomics.anl.gov/1/inbox/" > $PRJ_DIR/curl_output.txt
+done
+
