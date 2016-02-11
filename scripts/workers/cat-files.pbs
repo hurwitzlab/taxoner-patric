@@ -44,12 +44,12 @@ while read DIR; do
     
     SHORT_NAME=$(basename $DIR)
 
-    if [[ ! -s $CAT_OUT_DIR/$SHORT_NAME.lowqual ]]; then
+    if [[ ! -s $CAT_OUT_DIR/$SHORT_NAME.highqual ]]; then
         echo Doing $SHORT_NAME
         time find $DIR -type f -iname \*.fa -print0 \
             | xargs -0 -I file cat file \
             | fasta_formatter -w 0 \
-            | fastx_collapser -v > $CAT_OUT_DIR/$SHORT_NAME.lowqual
+            | fastx_collapser -v > $CAT_OUT_DIR/$SHORT_NAME.highqual
     else
         echo $SHORT_NAME already done
     fi

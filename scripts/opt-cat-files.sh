@@ -18,7 +18,7 @@ init_dir "$STDOUT_DIR"
 
 export DIR_LIST="$PRJ_DIR/dirs-to-cat"
 
-find $LOW_QUAL_DIR -maxdepth 1 -iname \*.fa > $DIR_LIST
+find $HIGH_QUAL_DIR -maxdepth 1 -iname \*.fa > $DIR_LIST
 
 export NUM_DIRS=$(lc $DIR_LIST)
 

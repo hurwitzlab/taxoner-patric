@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+#PBS -W group_list=bhurwitz
+#PBS -q standard
+#PBS -l jobtype=serial
+#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
+#PBS -l pvmem=46gb
+#PBS -l walltime=05:30:00
+#PBS -l cput=05:30:00
+#PBS -o out/
+#PBS -e out/
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+
+cd $PBS_O_WORKDIR
+
+CONFIG="./config.sh"
+
+if [ -e $CONFIG ]; then
+    . "$CONFIG"
+else
+    echo Missing config \"$CONFIG\"
+    exit 12385
+fi
+
+COMMON="$WORKER_DIR/common.sh"
+
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
+
+cd $CAT_OUT_DIR
+
+array=( DNA_1 DNA_2 DNA_3 DNA_4 )
+
+#need .fa. at end of pattern for find so we don't catenate the the gzipped ones
+#creating a uncompressed version as well so I can md5sum it before upload
+#since mg-rast automagically uncompresses the gzip
+
+for i in "${array[@]}"; do
+    find ./ -iname \*$i\*.fa.\* -print0 \
+    | xargs -0 -I file cat file \
+    | fastx_collapser -v -o $i_all.fa
+    gzip -v -c $i_all.fa > $i_all.fa.gz
+done
+
