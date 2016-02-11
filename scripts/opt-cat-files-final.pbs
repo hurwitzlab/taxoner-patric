@@ -43,7 +43,7 @@ array=( DNA_1 DNA_2 DNA_3 DNA_4 )
 for i in "${array[@]}"; do
     find ./ -iname \*$i\*.fa.\* -print0 \
     | xargs -0 -I file cat file \
-    | fastx_collapser -v -o $i_all.fa
-#    gzip -v -c $i_all.fa > $i_all.fa.gz
+    | fastx_collapser -v -o all$i.fa
+    gzip -v -c all$i.fa > all$i.fa.gz
 done
 
