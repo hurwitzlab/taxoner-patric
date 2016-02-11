@@ -44,6 +44,6 @@ for i in "${array[@]}"; do
     find ./ -iname \*$i\*.fa.\* -print0 \
     | xargs -0 -I file cat file \
     | fastx_collapser -v -o $i_all.fa
-    gzip -v -c $i_all.fa > $i_all.fa.gz
+#    gzip -v -c $i_all.fa > $i_all.fa.gz
 done
 
