@@ -41,7 +41,4 @@ makedb-files-to-process
 quickie.pbs
 upload.pbs
 high-qual-count-out
-curl_output.txt
-high-qual-files
-curl_output.txt
-high-qual-files
+
