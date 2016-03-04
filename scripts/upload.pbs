@@ -40,4 +40,3 @@ for i in "${array[@]}"; do
     echo \"Uploading all$i.fa.gz\"
     curl -H "auth: bccwxZPbqGbkRtdeDYPHA86jZ" -X POST -F "upload=@./all$i.fa.gz" "http://api.metagenomics.anl.gov/1/inbox/" > $PRJ_DIR/curl_output.txt
 done
-
