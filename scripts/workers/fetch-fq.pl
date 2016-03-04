@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use autodie;
 use feature 'say';
-use Bio::DB::Fasta;
+use Bio::Index::Fastq;
 use Bio::SeqIO;
 use File::Basename;
 use Getopt::Long;
@@ -25,7 +25,8 @@ sub main {
 
     pod2usage() unless @ARGV == 3;
 
-    #Command be like: perl ./fasta-search.pl $TEST_DB $TEST_SQ $TEST_OUT_DIR
+    #Command be like: perl $WORKER_DIR/fetch-fq.pl $FASTQ $FASTA $OUTPUT
+
     my ($dir_or_file, $read_id_file, $out_dir) = @ARGV;
 
     printf "Searching '%s'\n", $dir_or_file;
@@ -34,7 +35,7 @@ sub main {
 
        
     #The database, if this wasn't created before this will take a loooong time!
-    my $db  = Bio::DB::Fasta->new($dir_or_file);
+    my $db  = Bio::Index::Fastq->new($dir_or_file);
 
     #The read_id file, one id per line
     open my $READ_ID_FILE, '<', $read_id_file;

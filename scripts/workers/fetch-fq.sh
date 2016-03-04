@@ -31,8 +31,10 @@ for NAME in $(cat $TMP_FILES); do
     SHORT=$(basename $NAME '.fa')
     echo $SHORT
     FOUND=$(egrep $SHORT $SEARCH_LIST)
+    FASTA="$FASTA_DIR/$NAME"
+    FASTQ="$CLIPPED_FASTQ/$FOUND"
     OUTPUT=$FILTERED_FQ/"$SHORT".filtered.fastq
-    echo Using "$NAME" as input and searching through "$FOUND" and
+    echo Using "$FASTA" as input and searching through "$FASTQ" and
     echo will output to "$OUTPUT"
-    perl $WORKER_DIR/fetch-fq.pl $NAME $FOUND $OUTPUT
+    perl $WORKER_DIR/fetch-fq.pl $FASTQ $FASTA $OUTPUT
 done
