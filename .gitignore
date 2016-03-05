@@ -1,3 +1,4 @@
+*.fastq.*
 err
 out
 fasta-split
