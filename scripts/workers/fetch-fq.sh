@@ -36,7 +36,9 @@ else
     echo Found \"$NUM_FILES\" files to process
 fi
 
-export SEARCH_LIST=$(ls $CLIPPED_FASTQ)
+export SEARCH_LIST="$PRJ_DIR/clipped_search_list"
+
+ls $CLIPPED_FASTQ > $SEARCH_LIST
 
 for NAME in $(cat $TMP_FILES); do 
     echo Using $NAME
