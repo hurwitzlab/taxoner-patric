@@ -11,16 +11,6 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
-cd $PBS_O_WORKDIR
-CONFIG="$PRJ_DIR/scripts/config.sh"
-
-if [ -e $CONFIG ]; then
-    . "$CONFIG"
-else
-    echo MIssing config \"$CONFIG\"
-    exit 12385
-fi
-
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
@@ -29,12 +19,6 @@ else
   echo Missing common \"$COMMON\"
   exit 1
 fi
-
-PROG=`basename $0 ".sh"`
-#Just going to put stdout and stderr together into stdout
-STDOUT_DIR="$CWD/out/$PROG"
-
-init_dir "$STDOUT_DIR"
 
 TMP_FILES=$(mktemp)
 
