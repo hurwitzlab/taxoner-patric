@@ -11,6 +11,9 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
+unset module
+set -u
+
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
@@ -22,11 +25,16 @@ fi
 
 TMP_FILES=$(mktemp)
 
-get_lines $FILES_TO_PROCESS $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $FILES_LIST $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
 
 NUM_FILES=$(lc $TMP_FILES)
 
-echo Found \"$NUM_FILES\" files to process
+if [[ $NUM_FILES -le 1 ]]; then
+    echo Something went wrong or no files to process
+    exit 1
+else
+    echo Found \"$NUM_FILES\" files to process
+fi
 
 export SEARCH_LIST=$(ls $CLIPPED_FASTQ)
 
@@ -46,5 +54,7 @@ for NAME in $(cat $TMP_FILES); do
         --output $OUTPUT
 done
 
-python $HOME/mailsender.py
+if [[ $PBS_ARRAY_INDEX -eq 181 ]]; then
+    python $HOME/mailsender.py
+fi
 
