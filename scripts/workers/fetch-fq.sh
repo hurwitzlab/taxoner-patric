@@ -1,20 +1,50 @@
+#!/bin/bash
 
+#SBATCH -J fetch-fq           # Job name
+#SBATCH -o ./out/fetch-fq.%j.out    # Specify stdout output file (%j expands to jobId)
+#SBATCH -p normal           # Queue name
+#SBATCH -N 1                     # Total number of nodes requested (16 cores/node)
+#SBATCH -n 16                     # Total number of tasks
+#SBATCH -t 24:00:00              # Run time (hh:mm:ss) - 1.5 hours
+#SBATCH --mail-user=scottdaniel@email.arizona.edu
+#SBATCH --mail-type=all
+#SBATCH -A iPlant-Collabs         # Specify allocation to charge against
 
-echo Host `hostname`
+#automagic offloading for the xeon phi co-processor
+#in case anything uses Intel's Math Kernel Library
+export MKL_MIC_ENABLE=1
+export OMP_NUM_THREADS=16
+export MIC_OMP_NUM_THREADS=240
+export OFFLOAD_REPORT=2
 
-echo Started `date`
+unset module
+set -u
 
-source /usr/share/Modules/init/bash
+COMMON="$WORKER_DIR/common.sh"
+
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
 
 TMP_FILES=$(mktemp)
 
-get_lines $FILES_TO_PROCESS $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $FILES_LIST $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
 
 NUM_FILES=$(lc $TMP_FILES)
 
-echo Found \"$NUM_FILES\" files to process
+if [[ $NUM_FILES -le 1 ]]; then
+    echo Something went wrong or no files to process
+    exit 1
+else
+    echo Found \"$NUM_FILES\" files to process
+fi
 
-export SEARCH_LIST=$(ls $CLIPPED_FASTQ)
+export SEARCH_LIST="$PRJ_DIR/clipped_search_list"
+
+ls $CLIPPED_FASTQ > $SEARCH_LIST
 
 for NAME in $(cat $TMP_FILES); do 
     echo Using $NAME
@@ -31,3 +61,8 @@ for NAME in $(cat $TMP_FILES); do
         --fasta $FASTA \
         --output $OUTPUT
 done
+
+if [[ $PBS_ARRAY_INDEX -eq 181 ]]; then
+    python $HOME/mailsender.py
+fi
+
