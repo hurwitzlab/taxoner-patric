@@ -6,19 +6,15 @@ export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
 
 #input fasta
-#export FASTA_DIR="$PRJ_DIR/fasta"
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
-
-#place to store split-up fasta (step 00)
-export ALT_DATA="/rsgrps/bhurwitz/scottdaniel/uproc_shortread_to_pfam/data"
-export SPLIT_FA_DIR="$ALT_DATA/split"
-#export SPLIT_FA_DIR="$PRJ_DIR/fasta-split"
 
 #where original clipped fastq's are, we will use the screened fasta's to search
 #for the fastq's
 export CLIPPED_FASTQ="$PRJ_DIR/clipped"
 #place for the resultant fastq's
 export FILTERED_FQ="$PRJ_DIR/filtered_fastq"
+#place for sorted and merged PE'd reads and orphaned single reads
+export SORTNMG_DIR="$PRJ_DIR/sort-and-merged"
 
 #place that original fastq's are
 export FASTQ_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
