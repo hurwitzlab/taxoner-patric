@@ -11,6 +11,8 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
+unset module
+
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
@@ -48,20 +50,20 @@ while read LEFT_FASTQ; do
            
             NEWNAME=$(echo $LEFT_FASTQ | sed s/_R[1,2]//)
 
-            OUT=$SORTNMG_DIR/$(basename $NEWNAME ".filtered.fastq").1.fastq
+            OUT=$SORTNMG_DIR/$(basename $NEWNAME ".filtered.fastq")
             
-            if [[ -e $OUT ]]; then
+            if [[ -e "$OUT".1.fastq ]]; then
                 echo "Merged file already exists, skipping..."
                 continue
             else
-                echo "Processing $LEFT_FASTQ"
+                echo "Processing $LEFT_FASTQ and $RIGHT_FASTQ"
             fi
 
             perl $WORKER_DIR/mergeShuffledFastqSeqs.pl \
                 -f1 $IN_LEFT \
                 -f2 $IN_RIGHT \
                 -r '^@(\S+)\s[1|2]\S+$' \
-                -o $(basename $NEWNAME ".filtered.fastq") \
+                -o $OUT \
                 -t
 
         else
