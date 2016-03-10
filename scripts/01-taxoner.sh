@@ -21,13 +21,13 @@ else
     mkdir -p "$TAXONER_OUT_DIR"
 fi
 
-cd "$SPLIT_FA_DIR"
+cd "$FILTERED_FQ"
 
-export FILES_LIST="$PRJ_DIR/split-files"
+export FILES_LIST="$PRJ_DIR/filtered-files"
 
-echo "Finding fasta's"
+echo "Finding fastq's"
 
-find . -type f -iname \*.fa | sed "s/^\.\///" > $FILES_LIST 
+find . -type f -iname \*.fastq | sed "s/^\.\///" > $FILES_LIST 
 
 echo "Checking if already processed"
 
@@ -37,18 +37,18 @@ fi
 
 export FILES_TO_PROCESS="$PRJ_DIR/files-to-process"
 
-while read FASTA; do
+while read FASTQ; do
 
-    OUT_DIR=$TAXONER_OUT_DIR/$FASTA
+    OUT_DIR=$TAXONER_OUT_DIR/$FASTQ
 
     if [[ -d $OUT_DIR ]]; then
         if [[ -z $(find $OUT_DIR -iname Taxonomy.txt) ]]; then
-            echo $FASTA >> $FILES_TO_PROCESS
+            echo $FASTQ >> $FILES_TO_PROCESS
         else
             continue
         fi
     else
-        echo $FASTA >> $FILES_TO_PROCESS
+        echo $FASTQ >> $FILES_TO_PROCESS
     fi
 
 done < $FILES_LIST

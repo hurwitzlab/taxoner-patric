@@ -42,4 +42,9 @@ makedb-files-to-process
 high-qual-count-out
 curl_output.txt
 high-qual-files
-clipped
+fasta-files-list
+filtered_fastq
+sort-and-merged
+clipped_search_list
+left_fastqs
+right_fastqs
