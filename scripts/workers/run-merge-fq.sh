@@ -58,8 +58,8 @@ while read LEFT_FASTQ; do
             fi
 
             perl $WORKER_DIR/mergeShuffledFastqSeqs.pl \
-                -f1 $LEFT_FASTQ \
-                -f2 $RIGHT_FASTQ \
+                -f1 $IN_LEFT \
+                -f2 $IN_RIGHT \
                 -r '^@(\\S+)\\s[1|2]\\S+\$' \
                 -o $(basename $NEWNAME ".filtered.fastq") \
                 -t

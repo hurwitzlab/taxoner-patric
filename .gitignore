@@ -46,3 +46,5 @@ fasta-files-list
 filtered_fastq
 sort-and-merged
 clipped_search_list
+left_fastqs
+right_fastqs
