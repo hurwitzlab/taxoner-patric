@@ -11,8 +11,6 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
-unset module
-
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then

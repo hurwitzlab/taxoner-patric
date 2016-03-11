@@ -8,6 +8,7 @@ set -u
 source ./config.sh
 export CWD="$PWD"
 export STEP_SIZE=10
+unset module
 
 PROG=`basename $0 ".sh"`
 #Just going to put stdout and stderr together into stdout
