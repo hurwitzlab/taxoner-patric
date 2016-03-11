@@ -7,7 +7,7 @@
 set -u
 source ./config.sh
 export CWD="$PWD"
-export STEP_SIZE=100
+export STEP_SIZE=10
 
 PROG=`basename $0 ".sh"`
 #Just going to put stdout and stderr together into stdout
@@ -21,21 +21,21 @@ else
     mkdir -p "$TAXONER_OUT_DIR"
 fi
 
-cd "$FILTERED_FQ"
+cd "$SORTNMG_DIR"
 
-export FILES_LIST="$PRJ_DIR/filtered-files"
+export FILES_LIST="$PRJ_DIR/nomatch-files"
 
 echo "Finding fastq's"
 
-find . -type f -iname \*.fastq | sed "s/^\.\///" > $FILES_LIST 
+find . -type f -iname \*nomatch\* | sed "s/^\.\///" > $FILES_LIST 
 
 echo "Checking if already processed"
 
-if [ -e $PRJ_DIR/files-to-process ]; then
-    rm $PRJ_DIR/files-to-process
+if [ -e $PRJ_DIR/files-to-process-se ]; then
+    rm $PRJ_DIR/files-to-process-se
 fi
 
-export FILES_TO_PROCESS="$PRJ_DIR/files-to-process"
+export FILES_TO_PROCESS="$PRJ_DIR/files-to-process-se"
 
 while read FASTQ; do
 
@@ -57,7 +57,7 @@ NUM_FILES=$(lc $FILES_TO_PROCESS)
 
 echo \"Found $NUM_FILES to process\"
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxoner -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-taxoner.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxoner -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-taxoner-se.sh)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\" Remember: time you enjoy wasting is not wasted time.

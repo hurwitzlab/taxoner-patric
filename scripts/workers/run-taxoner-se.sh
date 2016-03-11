@@ -30,8 +30,8 @@ NUM_FILES=$(lc $TMP_FILES)
 
 echo Found \"$NUM_FILES\" files to process
 
-while read FASTA; do
-    FULLPATH=$SPLIT_FA_DIR/$FASTQ
+while read FASTQ; do
+    FULLPATH=$SORTNMG_DIR/$FASTQ
     
     OUT_DIR=$TAXONER_OUT_DIR/$FASTQ
 
