@@ -11,6 +11,8 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
+unset module
+
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
@@ -29,28 +31,28 @@ NUM_FILES=$(lc $TMP_FILES)
 echo Found \"$NUM_FILES\" files to process
 
 while read FASTA; do
-    FULLPATH=$SPLIT_FA_DIR/$FASTA
+    FULLPATH=$SPLIT_FA_DIR/$FASTQ
     
-    OUT_DIR=$TAXONER_OUT_DIR/$FASTA
+    OUT_DIR=$TAXONER_OUT_DIR/$FASTQ
 
     if [[ ! -d "$OUT_DIR" ]]; then
         mkdir -p "$OUT_DIR"
     fi
     
     if [[ -z $(find $OUT_DIR -iname Taxonomy.txt) ]]; then
-        echo "Processing $FASTA"
+        echo "Processing $FASTQ"
     else
         echo "Taxonomy.txt already exists, skipping..."
         continue
     fi
 
     taxoner64 -t 12 \
-    --dbPath $BOWTIEDB \
-    --taxpath $TAXA \
-    --seq $FULLPATH \
-    --output $OUT_DIR \
-    --fasta \
-    -y $PRJ_DIR/scripts/extra_commands.txt
+        -A \
+        --dbPath $BOWTIEDB \
+        --taxpath $TAXA \
+        --seq $FULLPATH \
+        --output $OUT_DIR \
+        -y $PRJ_DIR/scripts/extra_commands.txt
 
 done < "$TMP_FILES"
 
