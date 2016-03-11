@@ -21,15 +21,22 @@ else
     mkdir -p "$BOWTIE2_OUT_DIR"
 fi
 
-cd "$FASTQ_DIR"
+cd "$SORTNMG_DIR"
 
-export LEFT_FILES_LIST="$PRJ_DIR/left_fastqs"
-export RIGHT_FILES_LIST="$PRJ_DIR/right_fastqs"
+export LEFT_FILES_LIST="$PRJ_DIR/sorted_left_fastqs"
+export RIGHT_FILES_LIST="$PRJ_DIR/sorted_right_fastqs"
 
 echo "Finding fastq's"
 
-find . -type f -iname \*R1\*.fastq | sed "s/^\.\///" | sort > $LEFT_FILES_LIST 
-find . -type f -iname \*R2\*.fastq | sed "s/^\.\///" | sort > $RIGHT_FILES_LIST 
+#-bash-4.1$ find ./ -iname \*.1.fastq | wc -l
+#95
+#-bash-4.1$ find ./ -iname \*.2.fastq | wc -l
+#95
+#-bash-4.1$ find ./ -iname \*nomatch\* | wc -l
+#196
+#
+find . -type f -iname \*.1.fastq | sed "s/^\.\///" | sort > $LEFT_FILES_LIST 
+find . -type f -iname \*.2.fastq | sed "s/^\.\///" | sort > $RIGHT_FILES_LIST 
 
 echo "Checking if already processed"
 
@@ -60,9 +67,6 @@ echo \"Found $NUM_FILES to process\"
 echo \"Splitting them up in batches of "$STEP_SIZE"\"
 
 let i=1
-
-#Put this in the sbatch command if its dependant on another %jobid
-#--dependency=afterok:6613510 
 
 while (( "$i" <= "$NUM_FILES" )); do
     export FILE_START=$i
