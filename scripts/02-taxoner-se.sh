@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# This script is intended to use taxoner to map fastas to a metagenome 
+# This script is intended to use taxoner to map fastqs to a metagenome 
 #
 
 set -u

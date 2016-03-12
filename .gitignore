@@ -48,3 +48,7 @@ sort-and-merged
 clipped_search_list
 left_fastqs
 right_fastqs
+files-to-process-se
+nomatch-files
+sorted_left_fastqs
+sorted_right_fastqs

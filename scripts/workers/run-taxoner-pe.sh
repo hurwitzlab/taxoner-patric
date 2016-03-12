@@ -11,8 +11,6 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
-unset module
-
 COMMON="$WORKER_DIR/common.sh"
 
 if [ -e $COMMON ]; then
@@ -22,39 +20,55 @@ else
   exit 1
 fi
 
-TMP_FILES=$(mktemp)
+LEFT_TMP_FILES=$(mktemp)
+RIGHT_TMP_FILES=$(mktemp)
 
-get_lines $FILES_TO_PROCESS $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $LEFT_FILES_LIST $LEFT_TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $RIGHT_FILES_LIST $RIGHT_TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
 
-NUM_FILES=$(lc $TMP_FILES)
+NUM_FILES=$(lc $LEFT_TMP_FILES)
 
 echo Found \"$NUM_FILES\" files to process
 
-while read FASTA; do
-    FULLPATH=$SPLIT_FA_DIR/$FASTQ
-    
-    OUT_DIR=$TAXONER_OUT_DIR/$FASTQ
+while read LEFT_FASTQ; do
 
-    if [[ ! -d "$OUT_DIR" ]]; then
-        mkdir -p "$OUT_DIR"
-    fi
-    
-    if [[ -z $(find $OUT_DIR -iname Taxonomy.txt) ]]; then
-        echo "Processing $FASTQ"
-    else
-        echo "Taxonomy.txt already exists, skipping..."
-        continue
-    fi
+    while read RIGHT_FASTQ; do
 
-    taxoner64 -t 12 \
-        -A \
-        --dbPath $BOWTIEDB \
-        --taxpath $TAXA \
-        --seq $FULLPATH \
-        --output $OUT_DIR \
-        -y $PRJ_DIR/scripts/extra_commands.txt
+        test2=$(echo $RIGHT_FASTQ | sed s/_R[1-2]//)
+        test1=$(echo $LEFT_FASTQ | sed s/_R[1-2]//)
 
-done < "$TMP_FILES"
+        if [ "$test1" = "$test2" ]; then
+            IN_LEFT=$SORTNMG_DIR/$LEFT_FASTQ
+            IN_RIGHT=$FILTERED_FQ/$RIGHT_FASTQ
 
+            OUT_DIR=$TAXONER_OUT_DIR/$LEFT_FASTQ
 
+            if [[ ! -d "$OUT_DIR" ]]; then
+                mkdir -p "$OUT_DIR"
+            fi
+            
+            if [[ -z $(find $OUT_DIR -iname Taxonomy.txt) ]]; then
+                echo "Processing $LEFT_FASTQ and $RIGHT_FASTQ"
+            else
+                echo "Taxonomy.txt already exists, skipping..."
+                continue
+            fi
+
+            taxoner64 -t 12 \
+                -A \
+                --dbPath $BOWTIEDB \
+                --taxpath $TAXA \
+                --seq $IN_LEFT \
+                --paired $IN_RIGHT \
+                --output $OUT_DIR \
+                -y $PRJ_DIR/scripts/extra_commands.txt
+        fi
+
+    done
+
+done < "$LEFT_TMP_FILES"
+ 
+if [[ $PBS_ARRAY_INDEX -eq 91 ]]; then
+    python $HOME/mailsender.py
+fi
 
