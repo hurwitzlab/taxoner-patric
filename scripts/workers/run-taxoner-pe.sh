@@ -21,10 +21,8 @@ else
 fi
 
 LEFT_TMP_FILES=$(mktemp)
-RIGHT_TMP_FILES=$(mktemp)
 
-get_lines $LEFT_FILES_LIST $LEFT_TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
-get_lines $RIGHT_FILES_LIST $RIGHT_TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $FILES_TO_PROCESS $LEFT_TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
 
 NUM_FILES=$(lc $LEFT_TMP_FILES)
 
@@ -34,12 +32,12 @@ while read LEFT_FASTQ; do
 
     while read RIGHT_FASTQ; do
 
-        test2=$(echo $RIGHT_FASTQ | sed s/_R[1-2]//)
-        test1=$(echo $LEFT_FASTQ | sed s/_R[1-2]//)
+        test2=$(echo $RIGHT_FASTQ | sed s/\.[1-2]\.fastq//)
+        test1=$(echo $LEFT_FASTQ | sed s/\.[1-2]\.fastq//)
 
         if [ "$test1" = "$test2" ]; then
             IN_LEFT=$SORTNMG_DIR/$LEFT_FASTQ
-            IN_RIGHT=$FILTERED_FQ/$RIGHT_FASTQ
+            IN_RIGHT=$SORTNMG_DIR/$RIGHT_FASTQ
 
             OUT_DIR=$TAXONER_OUT_DIR/$LEFT_FASTQ
 
@@ -64,7 +62,7 @@ while read LEFT_FASTQ; do
                 -y $PRJ_DIR/scripts/extra_commands.txt
         fi
 
-    done
+    done < "$RIGHT_FILES_LIST"
 
 done < "$LEFT_TMP_FILES"
  
