@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #SBATCH -J krona-chart           # Job name
-#SBATCH -o ./out/krona-chart.%j.out    # Specify stdout output file (%j expands to jobId)
 #SBATCH -p normal           # Queue name
 #SBATCH -N 1                     # Total number of nodes requested (16 cores/node)
 #SBATCH -n 16                     # Total number of tasks
