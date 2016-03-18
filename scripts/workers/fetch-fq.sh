@@ -17,7 +17,6 @@ export OMP_NUM_THREADS=16
 export MIC_OMP_NUM_THREADS=240
 export OFFLOAD_REPORT=2
 
-unset module
 set -u
 
 COMMON="$WORKER_DIR/common.sh"
@@ -31,7 +30,7 @@ fi
 
 TMP_FILES=$(mktemp)
 
-get_lines $FILES_LIST $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $FILES_LIST $TMP_FILES $FILE_START $STEP_SIZE
 
 NUM_FILES=$(lc $TMP_FILES)
 
@@ -61,8 +60,4 @@ for NAME in $(cat $TMP_FILES); do
         --fasta $FASTA \
         --output $OUTPUT
 done
-
-if [[ $PBS_ARRAY_INDEX -eq 181 ]]; then
-    python $HOME/mailsender.py
-fi
 

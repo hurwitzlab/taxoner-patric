@@ -1,15 +1,32 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-#Script to take taxonomy counts for the 4 DNA samples and make a taxonomy chart with krona tools
+#SBATCH -J krona-chart           # Job name
+#SBATCH -o ./out/krona-chart.%j.out    # Specify stdout output file (%j expands to jobId)
+#SBATCH -p normal           # Queue name
+#SBATCH -N 1                     # Total number of nodes requested (16 cores/node)
+#SBATCH -n 16                     # Total number of tasks
+#SBATCH -t 24:00:00              # Run time (hh:mm:ss) - 1.5 hours
+#SBATCH --mail-user=scottdaniel@email.arizona.edu
+#SBATCH --mail-type=all
+#SBATCH -A iPlant-Collabs         # Specify allocation to charge against
 
-#PBS -W group_list=bhurwitz
-#PBS -q standard
-#PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
-#PBS -l walltime=12:00:00
-#PBS -l cput=12:00:00
-#PBS -M scottdaniel@email.arizona.edu
-#PBS -m bea
+#automagic offloading for the xeon phi co-processor
+#in case anything uses Intel's Math Kernel Library
+export MKL_MIC_ENABLE=1
+export OMP_NUM_THREADS=16
+export MIC_OMP_NUM_THREADS=240
+export OFFLOAD_REPORT=2
+
+set -u
+
+COMMON="$WORKER_DIR/common.sh"
+
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
 
 cd $TAXONER_OUT_DIR
 
@@ -47,12 +64,12 @@ fi
 #enter in the start point (ex: 192292 in this instance)
 echo Making Krona Charts
 time ktImportTaxonomy \
-    -o $KRONA_OUT_DIR/higher_qual_mouse_microbiome_taxa_patric.html \
+    -o $KRONA_OUT_DIR/fastq_mouse_microbiome_taxa_patric.html \
     -a \
     -q 1 \
     -t 2 \
     -s 4 \
-    $KRONA_OUT_DIR/filtered_DNA_1_Taxonomy.txt,DNA_1 \
-    $KRONA_OUT_DIR/filtered_DNA_2_Taxonomy.txt,DNA_2 \
-    $KRONA_OUT_DIR/filtered_DNA_3_Taxonomy.txt,DNA_3 \
-    $KRONA_OUT_DIR/filtered_DNA_4_Taxonomy.txt,DNA_4
+    $KRONA_OUT_DIR/DNA_1_Taxonomy.txt,DNA_1 \
+    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_2 \
+    $KRONA_OUT_DIR/DNA_3_Taxonomy.txt,DNA_3 \
+    $KRONA_OUT_DIR/DNA_4_Taxonomy.txt,DNA_4
