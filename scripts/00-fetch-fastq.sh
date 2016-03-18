@@ -23,10 +23,13 @@ NUM_FILES=$(lc $FILES_LIST)
 
 echo Found \"$NUM_FILES\" files in \"$FASTA_DIR\"
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fetch-fq -j oe -o "$STDOUT_DIR" $WORKER_DIR/fetch-fq.sh)
+#JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fetch-fq -j oe -o "$STDOUT_DIR" $WORKER_DIR/fetch-fq.sh)
 
-if [ $? -eq 0 ]; then
-  echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\" Remember: time you enjoy wasting is not wasted time.
-else
-  echo -e "\nError submitting job\n$JOB\n"
-fi
+let i=1
+
+while (( "$i" <= "$NUM_FILES" )); do
+    export FILE_START=$i
+    echo Doing file $i plus 19 more if possible
+    sbatch -o $STDOUT_DIR/fetch-fastq.out.$i $WORKER_DIR/fetch-fq.sh
+    (( i += $STEP_SIZE )) 
+done

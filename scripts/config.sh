@@ -1,12 +1,10 @@
 export CWD=$PWD
 export SCRIPT_DIR=$CWD
-#where programs are
-export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
-export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
+export PRJ_DIR="/work/03859/sdaniel/fastq-taxoner-patric"
 
 #input fasta
-export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
+export FASTA_DIR="$PRJ_DIR/screened"
 
 #where original clipped fastq's are, we will use the screened fasta's to search
 #for the fastq's
@@ -16,8 +14,6 @@ export FILTERED_FQ="$PRJ_DIR/filtered_fastq"
 #place for sorted and merged PE'd reads and orphaned single reads
 export SORTNMG_DIR="$PRJ_DIR/sort-and-merged"
 
-#place that original fastq's are
-export FASTQ_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
 #place to store split up fastq's for searching later
 export SPLIT_FQ_DIR="$PRJ_DIR/split-fastq"
 #place to store taxoner results (step 01)
@@ -40,9 +36,9 @@ export WORKER_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner
-export BOWTIEDB="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
+export BOWTIEDB="$PRJ_DIR/taxoner_db"
 #where taxid annotation is
-export TAXA="/gsfs1/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp"
+export TAXA="$PRJ_DIR/taxa_nodes/Patric_nodes.dmp"
 #
 # --------------------------------------------------
 function init_dir {

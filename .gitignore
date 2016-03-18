@@ -48,3 +48,6 @@ sort-and-merged
 clipped_search_list
 left_fastqs
 right_fastqs
+taxa_nodes/
+taxoner_db/
+krona_out/

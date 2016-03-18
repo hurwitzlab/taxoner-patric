@@ -27,7 +27,7 @@ fi
 
 echo Submitting job...
 
-JOB=$(qsub -V -N krona -j oe -o "$STDOUT_DIR" $WORKER_DIR/krona_chart.pbs)
+JOB=$(qsub -V -N krona -j oe -o "$STDOUT_DIR" $WORKER_DIR/krona_chart.slurm)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you. Do or do not. There is no try.

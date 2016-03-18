@@ -28,7 +28,7 @@ while [ 1 ]; do
     rsync \
         --timeout=60 \
         -aivvzhP \
-        --rsh=ssh scottdaniel@login.hpc.arizona.edu:/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric/sort-and-merged ./sort-and-merged/
+        --rsh=ssh scottdaniel@login.hpc.arizona.edu:/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric/sort-and-merged/* ./sort-and-merged/
     if [ "$?" = "0" ]; then
         echo "Rsync success!"
         exit 0
