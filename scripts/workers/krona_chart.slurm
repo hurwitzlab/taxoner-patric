@@ -64,7 +64,6 @@ fi
 echo Making Krona Charts
 time ktImportTaxonomy \
     -o $KRONA_OUT_DIR/fastq_mouse_microbiome_taxa_patric.html \
-    -a \
     -q 1 \
     -t 2 \
     -s 4 \

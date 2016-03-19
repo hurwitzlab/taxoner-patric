@@ -20,7 +20,7 @@
 
 while [ 1 ]; do
     rsync \
-        --timeout=60 \
+        --timeout=300 \
         -aivvzhP \
         --rsh=ssh scottdaniel@login.hpc.arizona.edu:/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db/* ./taxoner_db/
     if [ "$?" = "0" ]; then
