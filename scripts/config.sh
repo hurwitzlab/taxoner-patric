@@ -7,7 +7,6 @@ export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
 
 #input fasta
 export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
-
 #where original clipped fastq's are, we will use the screened fasta's to search
 #for the fastq's
 export CLIPPED_FASTQ="$PRJ_DIR/clipped"
@@ -26,12 +25,12 @@ export TAXONER_OUT_DIR="$PRJ_DIR/taxoner-out"
 export KRONA_OUT_DIR="$PRJ_DIR/krona-out"
 #place to store taxon counts (step 03)
 #export COUNT_OUT_DIR="$PRJ_DIR/count-out"
-export COUNT_OUT_DIR="$PRJ_DIR/high-qual-count-out"
+export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 #place to store goodly mapped reads
 export HIGH_QUAL_DIR="$PRJ_DIR/hq-out"
-#place to store list of reads that will be shunted to an assembler (opt-step)
-export READ_OUT_DIR="$PRJ_DIR/read-out"
-#place to store sequences of low quality that will be assembled (opt-step)
+#place to store list of not-mapped that will be shunted to an assembler (opt-step)
+export READ_OUT_DIR="$PRJ_DIR/unk-out"
+#place to store sequences of poorly mapped that will be assembled (opt-step)
 export LOW_QUAL_DIR="$PRJ_DIR/lq-out"
 #place to store concatenated sequences from READ_OUT and LOW_QUAL
 export CAT_OUT_DIR="$PRJ_DIR/for-upload"
