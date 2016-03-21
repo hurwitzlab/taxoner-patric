@@ -26,8 +26,8 @@ for line in file_in:
     line.rstrip('\n')
     if (':' in line):
         cols=line.split('\t')
-        #read_id    tax_id  gi_id   alignment_score match_start match_end
-        #HWI-ST885:65:C07WUACXX:2:1101:10000:12455	245014	291561105	1.700	487123	487223
+        #read_id    tax_id  gi_id   alignment_score match_start match_end	CIGAR_string (AS = alignment score)
+        #HWI-ST885:65:C07WUACXX:7:2307:10002:125389-2   397288  2538658 1.000   6232    6332    100M,XM:6,AS:158
         read_id=cols[0]
         taxa=cols[1]
         id_to_taxa.update({read_id:taxa})
