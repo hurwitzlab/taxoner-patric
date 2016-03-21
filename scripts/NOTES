@@ -1,0 +1,2 @@
+simpler-tax.py needs to be linked up somehow in step 03 "krona"
+i cleaned up the taxonomy.txt files so its just read_id tax_id and AS (alignment score) all manual-like but it can definitely be integrated in the pipeline

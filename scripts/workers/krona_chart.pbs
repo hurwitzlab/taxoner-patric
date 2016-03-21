@@ -3,10 +3,10 @@
 #Script to take taxonomy counts for the 4 DNA samples and make a taxonomy chart with krona tools
 
 #PBS -W group_list=bhurwitz
-#PBS -q windfall
+#PBS -q standard
 #PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=12:mem=47gb:pcmem=4gb
-#PBS -l pvmem=94gb
+#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
+#PBS -l pvmem=46gb
 #PBS -l walltime=6:00:00
 #PBS -l cput=6:00:00
 #PBS -M scottdaniel@email.arizona.edu
@@ -42,18 +42,21 @@ if [[ ! -s $KRONA_OUT_DIR/DNA_1_Taxonomy.txt ]]; then
 else
     echo DNA_1 already done
 fi
+#don't even know why I have this comment here still...
 #ID	taxid	unique_id	alignment_score	align_start	align_end
 #HWI-ST885:65:C07WUACXX:7:1101:10000:13342  1469948 1222964 2.080   192292  192392
 #unique_id can be grepped from PATRIC_final_genome_index.txt to give the PATRIC accession number 'accn|' to get the actual feature you have to go to the genome browser for the species and then
 #enter in the start point (ex: 192292 in this instance)
+
+#TODO: this is where simpler-tax.py should work its magic and make files like this: DNA_*_Taxonomy_simplified.txt
+
 echo Making Krona Charts
 time ktImportTaxonomy \
     -o $KRONA_OUT_DIR/mouse_microbiome_taxa_patric_pairedend.html \
-    -a \
     -q 1 \
     -t 2 \
-    -s 4 \
-    $KRONA_OUT_DIR/DNA_1_Taxonomy.txt,DNA_1 \
-    $KRONA_OUT_DIR/DNA_2_Taxonomy.txt,DNA_2 \
-    $KRONA_OUT_DIR/DNA_3_Taxonomy.txt,DNA_3 \
-    $KRONA_OUT_DIR/DNA_4_Taxonomy.txt,DNA_4
+    -s 3 \
+    $KRONA_OUT_DIR/DNA_1_Taxonomy_simplified.txt,DNA_1 \
+    $KRONA_OUT_DIR/DNA_2_Taxonomy_simplified.txt,DNA_2 \
+    $KRONA_OUT_DIR/DNA_3_Taxonomy_simplified.txt,DNA_3 \
+    $KRONA_OUT_DIR/DNA_4_Taxonomy_simplified.txt,DNA_4
