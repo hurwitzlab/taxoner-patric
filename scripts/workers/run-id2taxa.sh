@@ -12,8 +12,6 @@
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
-source /usr/share/Modules/init/bash
-
 set -u
 #-u  Treat unset variables as an error when substituting.
 
@@ -47,10 +45,10 @@ while read INPUT; do
 
     FILE="$KRONA_OUT_DIR/$INPUT"
     
-    if [[ $INPUT =~ .+DNA_4.+ ]]; then SAMPLE="DNA_4"; fi
-    if [[ $INPUT =~ .+DNA_3.+ ]]; then SAMPLE="DNA_3"; fi
-    if [[ $INPUT =~ .+DNA_2.+ ]]; then SAMPLE="DNA_2"; fi
-    if [[ $INPUT =~ .+DNA_1.+ ]]; then SAMPLE="DNA_1"; fi
+    if [[ $INPUT =~ "DNA_4" ]]; then SAMPLE="DNA_4"; fi
+    if [[ $INPUT =~ "DNA_3" ]]; then SAMPLE="DNA_3"; fi
+    if [[ $INPUT =~ "DNA_2" ]]; then SAMPLE="DNA_2"; fi
+    if [[ $INPUT =~ "DNA_1" ]]; then SAMPLE="DNA_1"; fi
 
     FILE_OUT="$COUNT_OUT_DIR/$SAMPLE"
     OUTPUT_FILE1="$FILE_OUT"_taxonomy_per_read.txt
