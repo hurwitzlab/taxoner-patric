@@ -55,9 +55,9 @@ while read INPUT; do
 #    OUTPUT_FILE1="$FILE_OUT"_taxonomy_per_read.txt
     OUTPUT_FILE2="$FILE_OUT"_taxonomy_counts.txt
 
-    if [[ -e $OUTPUT_FILE1 ]]; then
-        rm -rf $OUTPUT_FILE1
-    fi
+#    if [[ -e $OUTPUT_FILE1 ]]; then
+#        rm -rf $OUTPUT_FILE1
+#    fi
 
     if [[ -e $OUTPUT_FILE2 ]]; then
         rm -rf $OUTPUT_FILE2
