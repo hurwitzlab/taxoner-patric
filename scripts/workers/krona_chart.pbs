@@ -5,10 +5,10 @@
 #PBS -W group_list=bhurwitz
 #PBS -q standard
 #PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=12:mem=23gb:pcmem=2gb
-#PBS -l pvmem=46gb
-#PBS -l walltime=6:00:00
-#PBS -l cput=6:00:00
+#PBS -l select=1:ncpus=6:mem=11gb:pcmem=2gb
+#PBS -l pvmem=22gb
+#PBS -l walltime=4:00:00
+#PBS -l cput=4:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
@@ -48,15 +48,15 @@ fi
 #unique_id can be grepped from PATRIC_final_genome_index.txt to give the PATRIC accession number 'accn|' to get the actual feature you have to go to the genome browser for the species and then
 #enter in the start point (ex: 192292 in this instance)
 
-#TODO: this is where simpler-tax.py should work its magic and make files like this: DNA_*_Taxonomy_simplified.txt
+#TODO: this is where simpler-tax.py should work its magic and make files like this: DNA_*_simp_filt.txt
 
 echo Making Krona Charts
 time ktImportTaxonomy \
-    -o $KRONA_OUT_DIR/mouse_microbiome_taxa_patric_pairedend.html \
+    -o $KRONA_OUT_DIR/filtered-better_names_mouse_microbiome_taxa_patric_pairedend.html \
     -q 1 \
     -t 2 \
     -s 3 \
-    $KRONA_OUT_DIR/DNA_1_Taxonomy_simplified.txt,DNA_1 \
-    $KRONA_OUT_DIR/DNA_2_Taxonomy_simplified.txt,DNA_2 \
-    $KRONA_OUT_DIR/DNA_3_Taxonomy_simplified.txt,DNA_3 \
-    $KRONA_OUT_DIR/DNA_4_Taxonomy_simplified.txt,DNA_4
+    $KRONA_OUT_DIR/DNA_1_simp_filt.txt,'S+H+' \
+    $KRONA_OUT_DIR/DNA_2_simp_filt.txt,'S-H+' \
+    $KRONA_OUT_DIR/DNA_3_simp_filt.txt,'S+H-' \
+    $KRONA_OUT_DIR/DNA_4_simp_filt.txt,'S-H-'
