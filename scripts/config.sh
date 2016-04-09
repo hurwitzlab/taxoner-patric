@@ -42,6 +42,9 @@ export FA_SPLIT_FILE_SIZE=500000 # in KB
 export BOWTIEDB="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
 #where taxid annotation is
 export TAXA="/gsfs1/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp"
+#patric genome index in case you want to go back to original scaffold from the read id
+export PATRIC_INDEX="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_metadata/PATRIC_final_genome_index.txt"
+#
 #
 # --------------------------------------------------
 function init_dir {
