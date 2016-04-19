@@ -15,6 +15,10 @@ export FILTERED_FQ="$PRJ_DIR/filtered_fastq"
 #place for sorted and merged PE'd reads and orphaned single reads
 export SORTNMG_DIR="$PRJ_DIR/sort-and-merged"
 
+#place to put fastx_collapsed reads for Ken (REMOVES quality info and readid!!!)
+export DEDUP_DIR="$PRJ_DIR/dedupped"
+
+
 #place that original fastq's are
 export FASTQ_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
 #place to store split up fastq's for searching later
