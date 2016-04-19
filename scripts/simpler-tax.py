@@ -39,7 +39,7 @@ for line in file_in:
 #This is to setup the file with some headers so we know what the hell the columns are
 if (os.stat(file_out1).st_size == 0):
     file_out1.write('#Note: unique_id is the one that matches the accession number in PATRIC_final_genome_index.txt in the patric_metadata directory')
-    file_out1.write('Read_id\t' + 'NCBI_taxa_id\t' + 'Unique_id\t' + 'Alignment_Score\t'
+    file_out1.write('Read_id\t' + 'NCBI_taxa_id\t' + 'Unique_id\t' + 'Alignment_Score\t')
 
 for read_id in id_to_taxa:
     file_out1.write(read_id + "\t" + id_to_taxa[read_id] "\t" + id_to_uniq[read_id] + "\t" + id_to_score[read_id] + "\n")
