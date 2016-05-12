@@ -1,12 +1,5 @@
 setwd("~/remote_bhurwitz/fastq-taxoner-patric/krona-out/")
 
-#to make scores_DNA_x.txt
-#I executed the following bash shell commands:
-#ARRAY="DNA_1 DNA_2 DNA_3 DNA_4"
-#for i in "${ARRAY[@]}"; do
-#cut -f3 "$i"_Taxonomy_simplified.txt > scores_"$i".txt
-#done
-
 dev.off()
 DNA_1<-read.table("scores_DNA_1.txt")
 DNA_2<-read.table("scores_DNA_2.txt")
