@@ -1,12 +1,13 @@
 export CWD=$PWD
 export SCRIPT_DIR=$CWD
 #where programs are
-export BIN_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/bin"
+export BIN_DIR="/rsgrps/bhurwitz/hurwitzlab/bin"
 #root project dir
-export PRJ_DIR="/gsfs1/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
+export PRJ_DIR="/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
 
 #input fasta
-export FASTA_DIR="/gsfs1/rsgrps/bhurwitz/kyclark/mouse/data/screened"
+#export FASTA_DIR="/rsgrps/bhurwitz/kyclark/mouse/data/screened"
+export FASTA_DIR="/rsgrps/bhurwitz/kyclark/mouse-old/data/fasta"
 #where original clipped fastq's are, we will use the screened fasta's to search
 #for the fastq's
 export CLIPPED_FASTQ="$PRJ_DIR/clipped"
@@ -20,7 +21,7 @@ export DEDUP_DIR="$PRJ_DIR/dedupped"
 
 
 #place that original fastq's are
-export FASTQ_DIR="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
+export FASTQ_DIR="/rsgrps/bhurwitz/hurwitzlab/data/raw/Doetschman_20111007/all"
 #place to store split up fastq's for searching later
 export SPLIT_FQ_DIR="$PRJ_DIR/split-fastq"
 #place to store taxoner results (step 01)
@@ -43,11 +44,14 @@ export WORKER_DIR="$PRJ_DIR/scripts/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner
-export BOWTIEDB="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
+export BOWTIEDB="/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
+export PATRIC_GENOMES="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_bacteria"
 #where taxid annotation is
-export TAXA="/gsfs1/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp"
+export TAXA="/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp"
 #patric genome index in case you want to go back to original scaffold from the read id
-export PATRIC_INDEX="/gsfs1/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_metadata/PATRIC_final_genome_index.txt"
+export PATRIC_INDEX="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_metadata/PATRIC_final_genome_index.txt"
+#where patric annotation is
+export PATRIC_ANNOT="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_annot/patric_cds"
 #
 #
 # --------------------------------------------------

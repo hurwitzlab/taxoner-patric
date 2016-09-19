@@ -34,6 +34,8 @@ DNA_4" > $SAMPLE_LIST
 while read SAMPLE; do
     echo "Doing "$SAMPLE" taxonomy file"
 
-    qsub -V -j oe -o "$STDOUT_DIR" $WORKER_DIR/parse_taxonomy.sh
+    export SAMPLE=$SAMPLE
+
+    qsub -V -j oe -o "$STDOUT_DIR" $WORKER_DIR/fix_taxonomy.sh
 
 done < $SAMPLE_LIST
