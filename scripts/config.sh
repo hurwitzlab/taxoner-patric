@@ -7,7 +7,8 @@ export PRJ_DIR="/rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric"
 
 #input fasta
 #export FASTA_DIR="/rsgrps/bhurwitz/kyclark/mouse/data/screened"
-export FASTA_DIR="/rsgrps/bhurwitz/kyclark/mouse-old/data/fasta"
+#export FASTA_DIR="/rsgrps/bhurwitz/kyclark/mouse-old/data/fasta"
+export FASTA_DIR="/rsgrps/bhurwitz/scottdaniel/screened-mouse-DNA"
 #where original clipped fastq's are, we will use the screened fasta's to search
 #for the fastq's
 export CLIPPED_FASTQ="$PRJ_DIR/clipped"
@@ -40,7 +41,7 @@ export LOW_QUAL_DIR="$PRJ_DIR/lq-out"
 #place to store concatenated sequences from READ_OUT and LOW_QUAL
 export CAT_OUT_DIR="$PRJ_DIR/for-upload"
 #where the worker scripts are (PBS batch scripts and their python/perl workdogs)
-export WORKER_DIR="$PRJ_DIR/scripts/workers"
+export WORKER_DIR="$SCRIPT_DIR/workers"
 #how much to split up fasta files
 export FA_SPLIT_FILE_SIZE=500000 # in KB
 #where bowtie2 database is for taxoner

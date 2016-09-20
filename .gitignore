@@ -52,3 +52,6 @@ files-to-process-se
 nomatch-files
 sorted_left_fastqs
 sorted_right_fastqs
+dedupped/
+merged_fastqs
+sample_list
