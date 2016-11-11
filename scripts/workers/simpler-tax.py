@@ -39,6 +39,8 @@ local.cwd.chdir(os.environ.get('KRONA_OUT_DIR'))
 
 file_in = open(args["file"],"r")
 file_out1 = open(args["out1"],"w")
+min_score = args["min"]
+max_score = args["max"]
 
 id_to_taxa={}
 id_to_score={}
