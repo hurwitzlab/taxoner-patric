@@ -1,16 +1,4 @@
 #!/usr/bin/env python
-
-#PBS -W group_list=bhurwitz
-#PBS -q standard
-#PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=12:mem=23gb
-#PBS -l pvmem=46gb
-#PBS -l place=pack:shared
-#PBS -l walltime=00:30:00
-#PBS -l cput=00:30:00
-#PBS -M scottdaniel@email.arizona.edu
-#PBS -m bea
-
 import argparse
 import os
 import pprint
@@ -35,6 +23,10 @@ import_config()
 if __name__ == "__main__":
     parser = \
     argparse.ArgumentParser(description="Script to fix taxonomy text files.")
+    parser.add_argument("-m", "--min", action="store", \
+        help="Minimum alignment score (optional)")
+    parser.add_argument("-M", "--max", action="store", \
+        help="Maximum alignment score (optional)")
     parser.add_argument("-f", "--file", action="store", \
         help="File in",default=os.environ.get('IN_NAME'))
     parser.add_argument("-o1", "--out1", action="store", \
@@ -73,5 +65,23 @@ if (os.stat(file_out1.name).st_size == 0):
     file_out1.write('Read_id\t' + 'NCBI_taxa_id\t' + 'Unique_id\t' + 'Alignment_Score\t\n')
 
 for read_id in id_to_taxa:
-    if (id_to_score[read_id] >= 131):
+    if (min_score):
+        if (id_to_score[read_id] >= min_score):
+            file_out1.write(read_id + "\t" + id_to_taxa[read_id] + "\t" + id_to_uniq[read_id] + "\t" + str(id_to_score[read_id]) + "\n")
+    elif (max_score):
+        if (id_to_score[read_id] < max_score):
+            file_out1.write(read_id + "\t" + id_to_taxa[read_id] + "\t" + id_to_uniq[read_id] + "\t" + str(id_to_score[read_id]) + "\n")
+    else:
         file_out1.write(read_id + "\t" + id_to_taxa[read_id] + "\t" + id_to_uniq[read_id] + "\t" + str(id_to_score[read_id]) + "\n")
+
+###No longer need this because calling from another pbs script
+###PBS -W group_list=bhurwitz
+###PBS -q standard
+###PBS -l select=1:ncpus=12:mem=36gb
+###PBS -l place=pack:shared
+###PBS -l walltime=00:30:00
+###PBS -l cput=00:30:00
+###PBS -M scottdaniel@email.arizona.edu
+###PBS -m bea
+###
+

@@ -2,7 +2,8 @@
 
 #
 #This script is intended to take taxonomy.txt from each alignment, cat by sample
-#and then fetch accn# and genome_id from PATRIC_final_genome_index.txt
+#and then simplify the text for easier processing (just have read_id,
+#taxon_id, unique_id and score)
 #
 
 unset module

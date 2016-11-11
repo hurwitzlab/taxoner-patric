@@ -34,6 +34,7 @@ fi
 #unique_id can be grepped from PATRIC_final_genome_index.txt to give the PATRIC accession number 'accn|' to get the actual feature you have to go to the genome browser for the species and then
 #enter in the start point (ex: 24709 in this instance)
 
-#TODO: this is where simpler-tax.py should work its magic and make files like this: DNA_*_simp_filt.txt
+$WORKER_DIR/simpler_tax.py --file "$SAMPLE"_Taxonomy.txt --out1 "$SAMPLE"_simple.txt
+
 
 echo "Done at $(date)"
