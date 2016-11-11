@@ -41,7 +41,7 @@ echo \"Processing $(lc $FILES_LIST) samples\"
 echo \"Splitting up the work by sample\"
 
 while read SAMPLE; do
-
+    export $SAMPLE
     export NUM=$(echo $(basename $SAMPLE) | sed s/[^0-9]//g)
 
     JOB=$(qsub -V -N fetch_dog_$NUM -j oe -o "$STDOUT_DIR" $WORKER_DIR/fetch-lowqual.sh)

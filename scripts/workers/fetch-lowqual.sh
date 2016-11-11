@@ -25,8 +25,6 @@ echo "Getting fastq entries with maxscore of "$MAXSCORE""
 
 cd $CLIPPED_FASTQ
 
-TEMP=$(find ./)
-
 for FASTQ in $(find ./); do
     TAXFILE="$KRONA_OUT_DIR/$SAMPLE"
     OUTPUT=$LOW_QUAL_DIR/DNA_"$NUM".lowqual.fastq
