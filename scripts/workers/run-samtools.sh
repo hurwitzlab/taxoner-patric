@@ -12,14 +12,6 @@
 #PBS -m bea
 
 cd $PBS_O_WORKDIR
-CONFIG="$PRJ_DIR/scripts/config.sh"
-
-if [ -e $CONFIG ]; then
-    . "$CONFIG"
-else
-    echo MIssing config \"$CONFIG\"
-    exit 12385
-fi
 
 COMMON="$WORKER_DIR/common.sh"
 

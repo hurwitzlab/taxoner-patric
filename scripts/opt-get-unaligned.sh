@@ -7,7 +7,7 @@
 set -u
 source ./config.sh
 export CWD="$PWD"
-export STEP_SIZE=5000
+export STEP_SIZE=1000
 
 PROG=`basename $0 ".sh"`
 #Just going to put stdout and stderr together into stdout
@@ -62,7 +62,7 @@ NUM_FILES=$(lc $FILES_TO_PROCESS)
 
 echo \"Found $NUM_FILES to process\"
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -v PRJ_DIR,STEP_SIZE,WORKER_DIR,BIN_DIR,FILES_TO_PROCESS,TAXONER_OUT_DIR,READ_OUT_DIR -N samfast -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-samtools.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N samfast -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-samtools.sh)
 
 if [ $? -eq 0 ]; then
     echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\"
