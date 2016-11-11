@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#PBS -W group_list=bhurwitz
+#PBS -q qualified
+#PBS -l select=1:ncpus=6:mem=36gb:pcmem=6gb
+#PBS -l walltime=12:00:00
+#PBS -l cput=12:00:00
+#PBS -M scottdaniel@email.arizona.edu
+#PBS -m bea
+#PBS -o out/
+#PBS -e out/
+
+cd /rsgrps/bhurwitz/scottdaniel/fastq-taxoner-patric/taxoner-out
+
+#what i did already in an interactive session:
+#just trying with 0.fasta (so sort of a random collection of 4gb worth of bacterial genomes)
+
+#get all the *.sams from bacterial dir
+# cd taxoner-out/
+# samtools view -H -o ../header.sam ./DNA_3_ACAGTG_L007_004.1.fastq/Alignments/0.fasta.sam
+# find ./ -iname 0.fasta.sam > ../all0fastalist
+# for i in $(cat ../all0fastalist); do samtools view $i >> 0.merged.sam; done&
+# MYFASTA="/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db/0.fasta"
+# samtools view -@ 6 -b -T $MYFASTA -o 0.merged.bam 0.merged.sam&
+echo Started at $(date)
+
+echo Sorting...
+samtools sort -@ 6 -o sorted.temp 0.merged.bam
+sleep 1
+mv sorted.temp 0.merged.bam
+sleep 1
+rm sorted.temp
+
+echo Removing duplicates
+samtools rmdup 0.merged.bam dupsremoved-merged.bam
+
+echo Computing depth
+samtools depth dupsremoved-merged.bam > dupsremoved.coverage
+
+echo Ended at $(date)
