@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# This script is intended to use samtools and seqtk to extract unaligned reads from sam files and generate fastas for input to an assembler
+# This script is intended to use samtools and seqtk to extract unaligned reads from sam files and generate fastqs for input to an assembler
 #
 
 set -u
@@ -41,13 +41,13 @@ while read SAM; do
 
     OUT_DIR=$READ_OUT_DIR/$(dirname $SAM)
 
-    #gets the plain name "0.fasta.sam"
+    #gets the plain name "0.fastq.sam"
     NAME=$(basename $SAM)
     #gets the leading number "0"
     NUM=$(echo $NAME | sed s/[^0-9]//g)
 
     if [[ -d $OUT_DIR ]]; then
-        if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fasta) ]]; then
+        if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fastq) ]]; then
             echo $SAM >> $FILES_TO_PROCESS
         else
             continue
