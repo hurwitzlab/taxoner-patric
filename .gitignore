@@ -56,3 +56,5 @@ dedupped/
 merged_fastqs
 sample_list
 all0fastalist
+unk-out/
+lq-out/
