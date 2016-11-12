@@ -2,7 +2,7 @@
 import sys
 import argparse
 from Bio import SeqIO
-from __future__ import import print_function #python3 style printing
+from __future__ import print_function #python3 style printing
 #command be like this: (from fetch-fq.sh)
 #python $WORKER_DIR/fetch-fastq.py $FASTQ $FASTA $OUTPUT $MAXSCORE
 #$FASTA can also just be a file with a list of read_ids

@@ -26,9 +26,18 @@ echo "Getting fastq entries with maxscore of "$MAXSCORE""
 cd $CLIPPED_FASTQ
 
 for FASTQ in $(find ./); do
-    TAXFILE="$KRONA_OUT_DIR/$SAMPLE"
-    OUTPUT=$LOW_QUAL_DIR/DNA_"$NUM".lowqual.fastq
-    echo Using "$FASTA" as input and searching through "$FASTQ" and
+    
+    TAXFILE="$SAMPLE"
+
+    OUT_DIR=$LOW_QUAL_DIR/$(basename $FASTQ ".fastq.trimmed.clipped")
+
+    if [[ ! -d $OUT_DIR ]]; then
+        mkdir -p $OUT_DIR
+    fi
+
+    OUTPUT=$OUT_DIR/lowqual.fastq
+
+    echo Using "$TAXFILE" as input and searching through "$FASTQ" and
     echo will output to "$OUTPUT"
     python $WORKER_DIR/alt-fetch-fastq.py \
         --fastq $FASTQ \

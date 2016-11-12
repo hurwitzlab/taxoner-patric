@@ -1,3 +1,13 @@
+function init_dir {
+    for dir in $*; do
+        if [ -d "$dir" ]; then
+            rm -rf $dir/*
+        else
+            mkdir -p "$dir"
+        fi
+    done
+}
+
 # --------------------------------------------------
 function lc() {
     wc -l $1 | cut -d ' ' -f 1
