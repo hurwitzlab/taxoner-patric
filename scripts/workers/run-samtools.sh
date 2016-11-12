@@ -22,12 +22,6 @@ else
   exit 1
 fi
 
-PROG=`basename $0 ".sh"`
-#Just going to put stdout and stderr together into stdout
-STDOUT_DIR="$CWD/out/$PROG"
-
-init_dir "$STDOUT_DIR"
-
 TMP_FILES=$(mktemp)
 
 get_lines $FILES_TO_PROCESS $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
