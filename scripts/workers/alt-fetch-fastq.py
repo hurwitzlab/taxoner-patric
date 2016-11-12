@@ -43,13 +43,13 @@ for line in file_in:
     score=cols[-1]
     if (score < max_score):
         lowqual.update({read_id:score})
-        counter1++
+        counter1 += 1
 
 print("{:s} had {:n} read_ids that were below {:n}".format(file_in,counter1,max_score))
 
 for hwis in lowqual.iterkeys:
     SeqIO.write(fqrecords[hwis],output,"fastq")
-    counter2++
+    counter2 += 1
 
 print("Finished writing {:n} records to {:s}".format(counter2,fqrecords))
 
