@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+from __future__ import print_function #python3 style printing
 import sys
 import argparse
 from Bio import SeqIO
-from __future__ import print_function #python3 style printing
 #command be like this: (from fetch-fq.sh)
 #python $WORKER_DIR/fetch-fastq.py $FASTQ $FASTA $OUTPUT $MAXSCORE
 #$FASTA can also just be a file with a list of read_ids
@@ -27,7 +27,7 @@ if len(sys.argv)==1:
 
 output = open(args["output"],"w")
 file_in = open(args["fasta"],"r")
-max_score = args["max"]
+max_score = int(args["max"])
 fqrecords=SeqIO.index(args["fastq"],"fastq")
 
 print("First get read_ids below max_score")
@@ -45,13 +45,13 @@ for line in file_in:
         lowqual.update({read_id:score})
         counter1 += 1
 
-print("{:s} had {:n} read_ids that were below {:n}".format(file_in,counter1,max_score))
+print("{:s} had {:d} read_ids that were below {:d}".format(file_in,int(counter1),max_score))
 
 for hwis in lowqual.iterkeys:
     SeqIO.write(fqrecords[hwis],output,"fastq")
     counter2 += 1
 
-print("Finished writing {:n} records to {:s}".format(counter2,fqrecords))
+print("Finished writing {:d} records to {:s}".format(int(counter2),fqrecords))
 
 file_in.close()
 fqrecords.close()

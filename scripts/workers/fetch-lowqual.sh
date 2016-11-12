@@ -25,7 +25,12 @@ echo "Getting fastq entries with maxscore of "$MAXSCORE""
 
 cd $CLIPPED_FASTQ
 
-for FASTQ in $(find ./); do
+#TODO:need to put this part in the python script
+#so that it only loads the taxonomy.txt once and iterates through
+#each fastq in the list of clipped fastqs
+#even better would be to split up the number of clipped fastqs
+#in the above script "opt-getLowqual.sh" and do as a job array
+for FASTQ in $(find ./ -type f); do
     
     TAXFILE="$SAMPLE"
 
