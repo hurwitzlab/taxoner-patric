@@ -25,11 +25,10 @@ echo "Getting fastq entries with maxscore of "$MAXSCORE""
 
 cd $CLIPPED_FASTQ
 
-#TODO:need to put this part in the python script
-#so that it only loads the taxonomy.txt once and iterates through
-#each fastq in the list of clipped fastqs
-#even better would be to split up the number of clipped fastqs
+#OPTIONAL: even better would be to split up the number of clipped fastqs
 #in the above script "opt-getLowqual.sh" and do as a job array
+
+#create the directories for you ahead of time
 for FASTQ in $(find ./ -type f); do
     
     TAXFILE="$SAMPLE"
@@ -40,14 +39,13 @@ for FASTQ in $(find ./ -type f); do
         mkdir -p $OUT_DIR
     fi
 
-    OUTPUT=$OUT_DIR/lowqual.fastq
-
-    echo Using "$TAXFILE" as input and searching through "$FASTQ" and
-    echo will output to "$OUTPUT"
-    python $WORKER_DIR/alt-fetch-fastq.py \
-        --fastq $FASTQ \
-        --fasta $TAXFILE \
-        --output $OUTPUT \
-        --max $MAXSCORE
 done
+
+echo Using "$TAXFILE" as input and searching through fastqs
+echo in $CLIPPED_FASTQ
+python $WORKER_DIR/alt-fetch-fastq.py \
+    --fastq-dir $CLIPPED_FASTQ \
+    --fasta $TAXFILE \
+    --output-dir $LOW_QUAL_DIR \
+    --max $MAXSCORE
 
