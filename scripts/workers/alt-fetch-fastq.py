@@ -79,7 +79,7 @@ for fastq_name,fastq_path in fastq_files.iteritems(): #iterate through fastqs
             continue
         SeqIO.write(fqrecords[hwis],output,"fastq") #if found we write out
         counter2 += 1
-    print("Finished writing {:d} records to {:s}".format(int(counter2),fastq_name))
+    print("Finished getting {:d} records from {:s}".format(int(counter2),fastq_name))
     fqrecords.close() #good memory citizen even though i think python has garbage collection
     output.close()
 
