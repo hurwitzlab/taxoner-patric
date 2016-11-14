@@ -39,13 +39,14 @@ lowqual={}
 counter1=0
 
 for line in file_in:
-    line=line.strip()
-    cols=line.split('\t')
-    read_id=cols[0]
-    score=int(cols[-1])
-    if (score < max_score):
-        lowqual.update({read_id:score})
-        counter1 += 1
+    if not ('#' in line):
+        line=line.strip()
+        cols=line.split('\t')
+        read_id=cols[0]
+        score=int(cols[-1])
+        if (score < max_score):
+            lowqual.update({read_id:score})
+            counter1 += 1
 
 print("{:s} had {:d} read_ids that were below {:d}".format(file_in,int(counter1),max_score))
 

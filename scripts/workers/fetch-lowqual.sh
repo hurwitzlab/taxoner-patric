@@ -44,8 +44,8 @@ done
 echo Using "$TAXFILE" as input and searching through fastqs
 echo in $CLIPPED_FASTQ
 python $WORKER_DIR/alt-fetch-fastq.py \
-    --fastq-dir $CLIPPED_FASTQ \
+    --fastq_dir $CLIPPED_FASTQ \
     --fasta $TAXFILE \
-    --output-dir $LOW_QUAL_DIR \
+    --output_dir $LOW_QUAL_DIR \
     --max $MAXSCORE
 
