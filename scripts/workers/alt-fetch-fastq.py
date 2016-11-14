@@ -56,10 +56,13 @@ print("{:s} had {:d} read_ids that were below {:d}".format(file_in,int(counter1)
 
 fastq_files={}
 
+#Only need to get DNA_3*clipped files for DNA_3_simple.txt (and same for 1,2,4)
+prefix=file_in.name.split('_')[1]
+
 #building list of files
 for dirpath,dirnames,files in os.walk(fastq_dir):
     for fname in files:
-        if fname.endswith('clipped'):
+        if fname.endswith('clipped') and fname.split('_')[1]==prefix:
             fastq_files[fname] = os.sep.join([dirpath,fname])
 
 print("List of files is {:s}".format(fastq_files))
