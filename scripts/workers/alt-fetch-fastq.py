@@ -43,7 +43,11 @@ for line in file_in:
         line=line.strip()
         cols=line.split('\t')
         read_id=cols[0]
-        score=int(cols[-1])
+        try:
+            score=int(cols[-1])
+        except ValueError as exception:
+            print("Bad line is here, continuing anyway")
+            continue
         if (score < max_score):
             lowqual.update({read_id:score})
             counter1 += 1
