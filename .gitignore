@@ -1,3 +1,4 @@
+*.fastq.*
 err
 out
 fasta-split
@@ -42,3 +43,20 @@ quickie.pbs
 upload.pbs
 high-qual-count-out
 high-qual-files
+fasta-files-list
+filtered_fastq
+sort-and-merged
+clipped_search_list
+left_fastqs
+right_fastqs
+files-to-process-se
+nomatch-files
+sorted_left_fastqs
+sorted_right_fastqs
+dedupped/
+merged_fastqs
+sample_list
+all0fastalist
+unk-out/
+lq-out/
+krona-files

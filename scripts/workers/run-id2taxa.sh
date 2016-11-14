@@ -4,15 +4,13 @@
 
 #PBS -W group_list=bhurwitz
 #PBS -q standard
-#PBS -l jobtype=cluster_only
+#PBS -l jobtype=serial
 #PBS -l select=1:ncpus=6:mem=11gb:pcmem=2gb
 #PBS -l pvmem=22gb
 #PBS -l walltime=2:00:00
 #PBS -l cput=2:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
-
-source /usr/share/Modules/init/bash
 
 set -u
 #-u  Treat unset variables as an error when substituting.
@@ -47,24 +45,25 @@ while read INPUT; do
 
     FILE="$KRONA_OUT_DIR/$INPUT"
     
-    if [[ $INPUT =~ .+DNA_4.+ ]]; then SAMPLE="DNA_4"; fi
-    if [[ $INPUT =~ .+DNA_3.+ ]]; then SAMPLE="DNA_3"; fi
-    if [[ $INPUT =~ .+DNA_2.+ ]]; then SAMPLE="DNA_2"; fi
-    if [[ $INPUT =~ .+DNA_1.+ ]]; then SAMPLE="DNA_1"; fi
+    if [[ $INPUT =~ "DNA_4" ]]; then SAMPLE="DNA_4"; fi
+    if [[ $INPUT =~ "DNA_3" ]]; then SAMPLE="DNA_3"; fi
+    if [[ $INPUT =~ "DNA_2" ]]; then SAMPLE="DNA_2"; fi
+    if [[ $INPUT =~ "DNA_1" ]]; then SAMPLE="DNA_1"; fi
 
     FILE_OUT="$COUNT_OUT_DIR/$SAMPLE"
-    OUTPUT_FILE1="$FILE_OUT"_taxonomy_per_read.txt
+    #taxonomy per read uneeded now due to simplified taxonomy file
+#    OUTPUT_FILE1="$FILE_OUT"_taxonomy_per_read.txt
     OUTPUT_FILE2="$FILE_OUT"_taxonomy_counts.txt
 
-    if [[ -e $OUTPUT_FILE1 ]]; then
-        rm -rf $OUTPUT_FILE1
-    fi
+#    if [[ -e $OUTPUT_FILE1 ]]; then
+#        rm -rf $OUTPUT_FILE1
+#    fi
 
     if [[ -e $OUTPUT_FILE2 ]]; then
         rm -rf $OUTPUT_FILE2
     fi
 
-    $WORKER_DIR/id2tax.py -f $FILE --out1 $OUTPUT_FILE1 --out2 $OUTPUT_FILE2 \
+    $WORKER_DIR/id2tax.py -f $FILE --out2 $OUTPUT_FILE2 \
 
 done < "$TMP_FILES"
 

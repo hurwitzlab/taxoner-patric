@@ -1,5 +1,3 @@
-setwd("~/remote_bhurwitz/taxoner-patric/krona-out")
-
 dev.off()
 DNA_1<-read.table("scores_DNA_1.txt")
 DNA_2<-read.table("scores_DNA_2.txt")

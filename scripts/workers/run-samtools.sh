@@ -3,10 +3,8 @@
 #script to run samtools on the .sam's outputted by taxoner to get all the read id's from the unaligned reads
 
 #PBS -W group_list=bhurwitz
-#PBS -q standard
-#PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=6:mem=11gb
-#PBS -l pvmem=22gb
+#PBS -q qualified
+#PBS -l select=1:ncpus=6:mem=36gb
 #PBS -l place=pack:shared
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
@@ -14,14 +12,6 @@
 #PBS -m bea
 
 cd $PBS_O_WORKDIR
-CONFIG="$PRJ_DIR/scripts/config.sh"
-
-if [ -e $CONFIG ]; then
-    . "$CONFIG"
-else
-    echo MIssing config \"$CONFIG\"
-    exit 12385
-fi
 
 COMMON="$WORKER_DIR/common.sh"
 
@@ -31,12 +21,6 @@ else
   echo Missing common \"$COMMON\"
   exit 1
 fi
-
-PROG=`basename $0 ".sh"`
-#Just going to put stdout and stderr together into stdout
-STDOUT_DIR="$CWD/out/$PROG"
-
-init_dir "$STDOUT_DIR"
 
 TMP_FILES=$(mktemp)
 
@@ -55,19 +39,19 @@ while read SAM; do
         mkdir -p "$OUT_DIR"
     fi
     
-    #gets the plain name "0.fasta.sam"
+    #gets the plain name "0.fastq.sam"
     NAME=$(basename $SAM)
     #gets the leading number "0"
     NUM=$(echo $NAME | sed s/[^0-9]//g)
    
-    if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fasta) ]]; then
+    if [[ -z $(find $OUT_DIR -iname $NUM.unaligned.fastq) ]]; then
         echo "Processing $FULLPATH"
     else
-        echo "$NUM.unaligned.fasta for $FULLPATH already exists, skipping..."
+        echo "$NUM.unaligned.fastq for $FULLPATH already exists, skipping..."
         continue
     fi
 
-    samtools fasta -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fasta
+    samtools fasta -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fastq
 
 done < "$TMP_FILES"
 

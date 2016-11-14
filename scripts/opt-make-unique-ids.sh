@@ -18,16 +18,11 @@ STDOUT_DIR="$CWD/out/$PROG"
 
 init_dir "$STDOUT_DIR"
 
-echo Making output dir...
-if [ ! -d $COUNT_OUT_DIR ]; then
-    mkdir -p $COUNT_OUT_DIR
-fi
-
 cd $KRONA_OUT_DIR
 
 export TAXA_TEXT_FILES="$PRJ_DIR/taxa_files"
 
-find . -maxdepth 1 -type f -iname \*filtered\*Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
+find . -maxdepth 1 -type f -iname \*Taxonomy.txt | sed "s/^\.\///" > $TAXA_TEXT_FILES
 
 NUM_FILES=$(lc $TAXA_TEXT_FILES)
 
@@ -35,10 +30,18 @@ echo \"Found $NUM_FILES to process\"
 
 echo Submitting job...
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N taxaCount -j oe -o "$STDOUT_DIR" $WORKER_DIR/run-id2taxa.sh)
+cd $SCRIPT_DIR
 
-if [ $? -eq 0 ]; then
-  echo Submitted job \"$JOB\" for you. Ya ya ya.
-else
-  echo -e "\nError submitting job\n$JOB\n"
-fi
+for file in $(cat $TAXA_TEXT_FILES); do
+
+    export IN_NAME=$file
+    export OUT_NAME=$file-out
+
+    JOB=$(qsub -V -N simple -j oe -o "$STDOUT_DIR" $WORKER_DIR/simpler-tax.py)
+
+    if [ $? -eq 0 ]; then
+      echo Submitted job \"$JOB\" for you. Ya ya ya.
+    else
+      echo -e "\nError submitting job\n$JOB\n"
+    fi
+done

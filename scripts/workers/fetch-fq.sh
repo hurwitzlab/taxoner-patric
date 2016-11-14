@@ -1,38 +1,60 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #PBS -W group_list=bhurwitz
-#PBS -q standard
-#PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=2:mem=4gb
+#PBS -q qualified
+#PBS -l select=1:ncpus=2:mem=12gb
 #PBS -l place=pack:shared
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
-echo Host `hostname`
+unset module
+set -u
 
-echo Started `date`
+COMMON="$WORKER_DIR/common.sh"
 
-source /usr/share/Modules/init/bash
+if [ -e $COMMON ]; then
+  . "$COMMON"
+else
+  echo Missing common \"$COMMON\"
+  exit 1
+fi
 
 TMP_FILES=$(mktemp)
 
-get_lines $FILES_TO_PROCESS $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
+get_lines $FILES_LIST $TMP_FILES $PBS_ARRAY_INDEX $STEP_SIZE
 
 NUM_FILES=$(lc $TMP_FILES)
 
-echo Found \"$NUM_FILES\" files to process
+if [[ $NUM_FILES -le 1 ]]; then
+    echo Something went wrong or no files to process
+    exit 1
+else
+    echo Found \"$NUM_FILES\" files to process
+fi
 
-export SEARCH_LIST=$(ls $CLIPPED_FASTQ)
+export SEARCH_LIST="$PRJ_DIR/clipped_search_list"
+
+ls $CLIPPED_FASTQ > $SEARCH_LIST
 
 for NAME in $(cat $TMP_FILES); do 
     echo Using $NAME
     SHORT=$(basename $NAME '.fa')
     echo $SHORT
     FOUND=$(egrep $SHORT $SEARCH_LIST)
+    FASTA="$FASTA_DIR/$NAME"
+    FASTQ="$CLIPPED_FASTQ/$FOUND"
     OUTPUT=$FILTERED_FQ/"$SHORT".filtered.fastq
-    echo Using "$NAME" as input and searching through "$FOUND" and
+    echo Using "$FASTA" as input and searching through "$FASTQ" and
     echo will output to "$OUTPUT"
-    perl $WORKER_DIR/fetch-fq.pl $NAME $FOUND $OUTPUT
+    python $WORKER_DIR/fetch-fastq.py \
+        --fastq $FASTQ \
+        --fasta $FASTA \
+        --output $OUTPUT
 done
+
+if [[ $PBS_ARRAY_INDEX -eq 181 ]]; then
+    python $HOME/mailsender.py
+fi
+

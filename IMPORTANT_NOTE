@@ -1,0 +1,20 @@
+For the "filtered_fastq" dir
+
+These files are orphaned:
+DNA_2_TGACCA_L002_R2_006.fastq.trimmed.clipped
+DNA_3_ACAGTG_L002_R2_009.fastq.trimmed.clipped
+DNA_3_ACAGTG_L002_R2_010.fastq.trimmed.clipped
+DNA_4_GCCAAT_L002_R2_012.fastq.trimmed.clipped
+DNA_4_GCCAAT_L002_R2_013.fastq.trimmed.clipped
+DNA_4_GCCAAT_L002_R2_014.fastq.trimmed.clipped
+
+The complementary "R1" files were eliminated in the 
+QC step because the longest continguous sequence that
+had NO bases with a Q < 14 was below 52bp in length)
+*See the script qc-fastq.sh in mouse/scripts/workers
+of the fizkin pipeline
+
+Because they are orphaned, I'm re-writing them as:
+DNA_2_TGACCA_L002_006.nomatch2.fastq
+
+to go along with the mergeShuffledFastq.pl script
