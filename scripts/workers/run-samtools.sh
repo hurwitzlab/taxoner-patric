@@ -50,17 +50,29 @@ while read SAM; do
         echo "$NUM.unaligned.fastq for $FULLPATH already exists, skipping..."
         continue
     fi
-
-    samtools fasta -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fastq
+#
+#Usage: samtools fasta [options...] <in.bam>
+#Options:
+#  -0 FILE   write paired reads flagged both or neither READ1 and READ2 to FILE
+#  -1 FILE   write paired reads flagged READ1 to FILE
+#  -2 FILE   write paired reads flagged READ2 to FILE
+#  -f INT    only include reads with all bits set in INT set in FLAG [0]
+#  -F INT    only include reads with none of the bits set in INT set in FLAG [0]
+#  -n        don't append /1 and /2 to the read name
+#  -O        output quality in the OQ tag if present
+#  -s FILE   write singleton reads to FILE [assume single-end]
+#  -t        copy RG, BC and QT tags to the FASTQ header line
+#  -v INT    default quality score if not given in file [1]
+#      --input-fmt-option OPT[=VAL]
+#               Specify a single input file format option in the form
+#               of OPTION or OPTION=VALUE
+#      --reference FILE
+#               Reference sequence FASTA FILE [null]
+#
+    samtools fasta -n -O -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fastq
 
     #fix line ending of read_ids
-
-    #replaces endings for "nomatch1 etc."
     sed -i.bak -e 's/-1/\/1/' -e 's/-2/\/2/' \
-        $OUT_DIR/$NUM.unaligned.fastq
-
-    #replaces ending for .1 and .2 (since they now have double /1/1)
-    sed -i.bak -e 's/\/1\/1/\/1/' -e 's/\/2\/2/\/2/' \
         $OUT_DIR/$NUM.unaligned.fastq
 
 done < "$TMP_FILES"
