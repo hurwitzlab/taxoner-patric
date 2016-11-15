@@ -36,6 +36,9 @@ export COUNT_OUT_DIR="$PRJ_DIR/count-out"
 export HIGH_QUAL_DIR="$PRJ_DIR/hq-out"
 #place to store list of not-mapped that will be shunted to an assembler (opt-step)
 export READ_OUT_DIR="$PRJ_DIR/unk-out"
+#second dir for "unknown" reads that actually contains the fastqs
+#because sam files don't save the quality of the the fastq
+export UNK2_OUT_DIR="$PRJ_DIR/unk-out2"
 #place to store sequences of poorly mapped that will be assembled (opt-step)
 export LOW_QUAL_DIR="$PRJ_DIR/lq-out"
 #place to store concatenated sequences from READ_OUT and LOW_QUAL
