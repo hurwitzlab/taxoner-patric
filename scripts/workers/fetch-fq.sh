@@ -40,7 +40,7 @@ ls $CLIPPED_FASTQ > $SEARCH_LIST
 
 for NAME in $(cat $TMP_FILES); do 
     echo Using $NAME
-    SHORT=$(basename $NAME '.fa')
+    SHORT=$(basename $NAME '.fastq')
     echo $SHORT
     FOUND=$(egrep $SHORT $SEARCH_LIST)
     FASTA="$FASTA_DIR/$NAME"

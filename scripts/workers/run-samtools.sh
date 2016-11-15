@@ -4,7 +4,7 @@
 
 #PBS -W group_list=bhurwitz
 #PBS -q qualified
-#PBS -l select=1:ncpus=6:mem=36gb
+#PBS -l select=1:ncpus=2:mem=12gb
 #PBS -l place=pack:shared
 #PBS -l walltime=24:00:00
 #PBS -l cput=24:00:00
@@ -52,6 +52,16 @@ while read SAM; do
     fi
 
     samtools fasta -f 4 $FULLPATH > $OUT_DIR/$NUM.unaligned.fastq
+
+    #fix line ending of read_ids
+
+    #replaces endings for "nomatch1 etc."
+    sed -i.bak -e 's/-1/\/1/' -e 's/-2/\/2/' \
+        $OUT_DIR/$NUM.unaligned.fastq
+
+    #replaces ending for .1 and .2 (since they now have double /1/1)
+    sed -i.bak -e 's/\/1\/1/\/1/' -e 's/\/2\/2/\/2/' \
+        $OUT_DIR/$NUM.unaligned.fastq
 
 done < "$TMP_FILES"
 

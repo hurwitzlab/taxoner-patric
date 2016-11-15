@@ -11,17 +11,17 @@ export STEP_SIZE=20
 PROG=`basename $0 ".sh"`
 STDOUT_DIR="$CWD/out/$PROG"
 
-init_dir "$STDOUT_DIR" "$FILTERED_FQ"
+init_dir "$STDOUT_DIR" "$UNK2_OUT_DIR"
 
-cd "$FASTA_DIR"
+cd "$READ_OUT_DIR"
 
 export FILES_LIST="$PRJ_DIR/fasta-files-list"
 
-find . -type f -name \*.fa | sed "s/^\.\///" > $FILES_LIST
+find . -type f -name \*.fastq | sed "s/^\.\///" > $FILES_LIST
 
 NUM_FILES=$(lc $FILES_LIST)
 
-echo Found \"$NUM_FILES\" files in \"$FASTA_DIR\"
+echo Found \"$NUM_FILES\" files in \"$READ_OUT_DIR\"
 
 JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fetch-fq -j oe -o "$STDOUT_DIR" $WORKER_DIR/fetch-fq.sh)
 
