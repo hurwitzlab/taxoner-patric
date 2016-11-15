@@ -15,13 +15,13 @@ init_dir "$STDOUT_DIR"
 
 export FILE_LIST=$PRJ_DIR/clipped_search_list
 
-cd $CLIPPED_DIR
+cd $CLIPPED_FASTQ
 
-find ./ -type f -iname "\*.clipped" | sed "s/^\.\///" > $FILE_LIST
+find ./ -type f -iname "*.clipped" | sed "s/^\.\///" > $FILE_LIST
 
 NUM_FILES=$(lc $FILE_LIST)
 
-echo Found \"$NUM_FILES\" files in \"$CLIPPED_DIR\"
+echo Found \"$NUM_FILES\" files in \"$CLIPPED_FASTQ\"
 
 JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fix-clipped -j oe -o "$STDOUT_DIR" $WORKER_DIR/fix-fastq-ends2.sh)
 

@@ -26,7 +26,7 @@ else
   exit 1
 fi
 
-cd $CLIPPED_DIR
+cd $CLIPPED_FASTQ
 
 TMP_FILES=$(mktemp)
 
@@ -43,7 +43,7 @@ fi
 
 for FILE in $(cat $TMP_FILES); do
     echo Doing $FILE
-    FASTQ="$CLIPPED_DIR/$FILE"
+    FASTQ="$CLIPPED_FASTQ/$FILE"
     sed -i.bak -e 's/ 1.*$/\/1/' -e 's/ 2.*$/\/2/' $FASTQ
 
     if [[ $? -eq 0 ]]; then
