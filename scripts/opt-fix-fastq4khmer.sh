@@ -12,6 +12,7 @@ STDOUT_DIR="$CWD/out/$PROG"
 
 init_dir "$STDOUT_DIR"
 
+
 for i in $SAMPLE_NAMES; do
     export SAMPLE=$i
     echo $i

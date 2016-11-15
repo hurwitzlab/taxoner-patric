@@ -53,6 +53,7 @@ export TAXA="/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp
 export PATRIC_INDEX="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_metadata/PATRIC_final_genome_index.txt"
 #where patric annotation is
 export PATRIC_ANNOT="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_annot/patric_cds"
+export SAMPLE_NAMES="DNA_1 DNA_2 DNA_3 DNA_4"
 #
 #
 # --------------------------------------------------

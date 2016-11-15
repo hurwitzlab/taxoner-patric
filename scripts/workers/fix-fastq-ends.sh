@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 #PBS -W group_list=bhurwitz
-#PBS -q standard
-#PBS -l jobtype=cluster_only
-#PBS -l select=1:ncpus=2:mem=3gb:pcmem=2gb
-#PBS -l pvmem=6gb
+#PBS -q qualified
+#PBS -l select=1:ncpus=2:mem=12gb
 ###and the amount of time required to run it
 #PBS -l walltime=6:00:00
 #PBS -l cput=6:00:00
@@ -28,14 +26,14 @@ else
   exit 1
 fi
 
-cd $TRIMMED_DIR
+cd $KRONA_OUT_DIR
 
 echo Doing sample $SAMPLE
 
 set -x
 echo fixing lines
 
-sed -i.bak -e 's/-1$/\/1/' -e 's/-2$/\/2/' "$SAMPLE".deduped.fastq.abundfilt
+time sed -i.bak -e 's/-1/\/1/' -e 's/-2/\/2/' "$SAMPLE"_simple.txt
 
 if [[ $? -eq 0 ]]; then
     rm *.bak
