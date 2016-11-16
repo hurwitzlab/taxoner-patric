@@ -2,7 +2,7 @@
 
 #PBS -W group_list=bhurwitz
 #PBS -q qualified
-#PBS -l select=1:ncpus=2:mem=12gb
+#PBS -l select=1:ncpus=1:mem=1gb
 ###and the amount of time required to run it
 #PBS -l walltime=6:00:00
 #PBS -l cput=6:00:00
@@ -75,3 +75,5 @@ for i in $(cat $LLIST); do grep -P -l ">HWI.*[^/]\d$" $i >> $LBAD; done
 #for i in $(cat $RLIST); do grep -P -l ">HWI.*[^/]\d$" $i >> $RBAD; done
 #
 #
+
+echo Done at $(date)
