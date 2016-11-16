@@ -13,17 +13,17 @@ STDOUT_DIR="$CWD/out/$PROG"
 
 init_dir "$STDOUT_DIR"
 
-export FILE_LIST=$PRJ_DIR/unk_search_list
+export FILE_LIST=$PRJ_DIR/merged_fastqs
 
-cd $READ_OUT_DIR
+cd $SORTNMG_DIR
 
 find ./ -type f -iname "*.fastq" | sed "s/^\.\///" > $FILE_LIST
 
 NUM_FILES=$(lc $FILE_LIST)
 
-echo Found \"$NUM_FILES\" files in \"$READ_OUT_DIR\"
+echo Found \"$NUM_FILES\" files in \"$SORTNMG_DIR\"
 
-JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fix-clipped -j oe -o "$STDOUT_DIR" $WORKER_DIR/fix-fastq-ends3.sh)
+JOB=$(qsub -J 1-$NUM_FILES:$STEP_SIZE -V -N fix-merged -j oe -o "$STDOUT_DIR" $WORKER_DIR/fix-fastq-ends3.sh)
 
 if [ $? -eq 0 ]; then
   echo Submitted job \"$JOB\" for you in steps of \"$STEP_SIZE.\" Remember: time you enjoy wasting is not wasted time.

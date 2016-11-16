@@ -2,10 +2,10 @@
 
 #PBS -W group_list=bhurwitz
 #PBS -q qualified
-#PBS -l select=1:ncpus=2:mem=12gb
+#PBS -l select=1:ncpus=1:mem=3gb
 ###and the amount of time required to run it
-#PBS -l walltime=6:00:00
-#PBS -l cput=6:00:00
+#PBS -l walltime=2:00:00
+#PBS -l cput=2:00:00
 #PBS -M scottdaniel@email.arizona.edu
 #PBS -m bea
 
@@ -26,7 +26,7 @@ else
   exit 1
 fi
 
-cd $READ_OUT_DIR
+cd $SORTNMG_DIR
 
 TMP_FILES=$(mktemp)
 
@@ -45,11 +45,10 @@ for FILE in $(cat $TMP_FILES); do
     
     echo Doing $FILE
     
-    FASTQ="$READ_OUT_DIR/$FILE"
+    FASTQ="$SORTNMG_DIR/$FILE"
 
-    sed -i.bak -e 's/-1/\/1/' -e 's/-2/\/2/' $FASTQ
-
-    sed -i.bak -e 's/\/1\/1/\/1/' -e 's/\/2\/2/\/2/' $FASTQ
+    sed -i.bak -e 's/ 2.*$/\/2/' -e 's/-2$/\/2/' \
+        -e 's/-1$/\/1/' -e 's/ 1.*$/\/1/' $FASTQ
 
 done
 
