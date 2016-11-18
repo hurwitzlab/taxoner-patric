@@ -16,7 +16,7 @@ echo "Started at $(date)"
 
 COMMON=$WORKER_DIR/common.sh
 
-if [[ -d $COMMON ]]; then
+if [[ -e $COMMON ]]; then
     source $COMMON
 else
     echo missing "$COMMON"
@@ -33,6 +33,13 @@ fi
 LEFT=$(mktmp)
 
 find ./ -regextype egrep -iregex "\.\/"$SAMPLE".*\.[1].*" > $LEFT
+
+if [[ $(lc $LEFT) = 0 ]]; then
+    echo No files to work on
+    exit 1
+fi
+
+echo Working on $(lc $LEFT) files
 
 for LFILE in $(cat $LEFT); do
 
