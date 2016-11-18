@@ -30,7 +30,7 @@ if [[ -z "$SAMPLE" ]]; then
     exit 1
 fi
 
-LEFT=$(mktmp)
+LEFT=$(mktemp)
 
 find ./ -regextype egrep -iregex "\.\/"$SAMPLE".*\.[1].*" > $LEFT
 
