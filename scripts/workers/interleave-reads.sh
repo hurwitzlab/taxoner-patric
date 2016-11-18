@@ -39,7 +39,7 @@ if [[ $(lc $LEFT) = 0 ]]; then
     exit 1
 fi
 
-echo Working on $(lc $LEFT) files
+echo Working on $(lc $LEFT) x 2 files
 
 for LFILE in $(cat $LEFT); do
 
@@ -64,5 +64,8 @@ for LFILE in $(cat $LEFT); do
         mv "$PREFIX".2.fastq ../tmpbackup/
         mv "$PREFIX".tmp "$PREFIX".1.fastq
     fi
-   
+
+done
+
 echo "Done at $(date)"
+
