@@ -39,21 +39,23 @@ fi
 
 cd $READ_OUT_DIR
 
-export LBAD="./left-bad-files"
+#export LBAD="./left-bad-files"
 export RBAD="./right-bad-files"
-
-if [[ ! -e $LBAD ]]; then
-    echo no list of files to fix
-    exit 1
-elif [[ ! -e $RBAD ]]; then
-    echo no list of files to fix
-    exit 1
-fi
-
-while read FILE; do
-    perl -pi.bak -e 'if (/^>/) { s{$}{/1} }' $FILE
-done < $LBAD
-
+#
+#if [[ ! -e $LBAD ]]; then
+#    echo no list of files to fix
+#    exit 1
+#elif [[ ! -e $RBAD ]]; then
+#    echo no list of files to fix
+#    exit 1
+#fi
+#
+#while read FILE; do
+#    perl -pi.bak -e 'if (/^>/) { s{$}{/1} }' $FILE
+#done < $LBAD
+#
 while read FILE; do
     perl -pi.bak -e 'if (/^>/) { s{$}{/2} }' $FILE
 done < $RBAD
+
+echo Done at $(date)
