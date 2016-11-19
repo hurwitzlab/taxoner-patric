@@ -2,7 +2,10 @@
 
 #
 # This script is intended to use samtools and seqtk to extract unaligned reads from sam files and generate fastqs for input to an assembler
-#
+# TODO: between this step and opt-get-unaligned2.sh
+# concatenate and deduplicate these unaligned.sam
+# because there has to be a lot of duplication
+# in the unaligned
 
 set -u
 source ./config.sh
