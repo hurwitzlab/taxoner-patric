@@ -1,0 +1,18 @@
+Since taxoner is stupid (ok, its cool for some things) about unaligned reads
+It outputs duplicate unaligned reads in each sam file (e.g. 0.fasta.sam, 1.fasta.sam)
+
+So what we need to do for /taxoner-out/ is:
+samtools view -b -f 4 0.fasta.sam > 0.unaligned.bam #and for 1.fasta, etc.
+#to get the unaligned reads in bam format then delete the sams
+#then
+samtools merge -n -@ [cpu_cores] -b [list-of-bams e.g. 0.bam 1.bam] sorted.unaligned.bam
+#which merges and SORTS! all those duplicates into unique reads
+#then you can delete all that crap in the list-of-bams
+#then
+bam2fastx -o sorted.ilv.fq sorted.unaligned.bam
+#which is from tophat tools, it correctly converts the reads 
+#to an interleaved fastq file, ta da!
+#no need to search through those original fastqs!
+
+*Also wasting space is the *.aln files... the only file really needs is the
+/results/taxonomy.txt for krona tools
