@@ -51,6 +51,7 @@ export FA_SPLIT_FILE_SIZE=500000 # in KB
 export BOWTIEDB="/rsgrps/bhurwitz/hurwitzlab/data/reference/taxoner_db"
 export PATRIC_GENOMES="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_bacteria"
 #where taxid annotation is
+#TODO: THIS SHOULD NOT BE IN PERSONAL DIRECTORY!!!
 export TAXA="/rsgrps/bhurwitz/scottdaniel/PATRIC_dbCreator/data/Patric_nodes.dmp"
 #patric genome index in case you want to go back to original scaffold from the read id
 export PATRIC_INDEX="/rsgrps/bhurwitz/hurwitzlab/data/reference/patric_metadata/PATRIC_final_genome_index.txt"
