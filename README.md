@@ -1,5 +1,6 @@
 # taxoner-patric
-## fastq branch*
+## singularity branch = meant to work with singularity images (that contain fastqc, taxoner, etc.)
+## see https://singularity-hub.org/
 This is to work with taxoner64, a bowtie2 based solution to mapping reads to a metagenome 
 
 Google: https://code.google.com/p/taxoner/
