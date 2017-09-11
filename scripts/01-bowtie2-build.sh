@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # need a script to cat all the genomes i think
 # something like:
@@ -8,3 +8,5 @@
 # have check for *.bt2 to see if completed (for restarting)
 # then spawn a pbs job for each *.fna to index
 # tada!
+
+
